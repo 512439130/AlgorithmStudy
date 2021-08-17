@@ -8,11 +8,11 @@ public class Sort {
         int[] a = getRandomArrays(20000);
         long time1=System.currentTimeMillis();
 
-        popSort(a);    //252ms
+//        popSort(a);    //1348ms
 //        popSort2(a);   //1037ms
 //        selectSort(a);   //419ms
 //        insertSort(a);    //679ms
-//        insertSort2(a);    //211ms
+        insertSort2(a);    //311ms
 
         long time2=System.currentTimeMillis();
 

@@ -6,20 +6,22 @@ import java.util.Random;
 public class Sort {
 
     public static void main(String[] args) {
-        int[] array = getRandomArrays(20000);
+        int[] array = getRandomArrays(50000);
+//        System.out.println("待排序数组：" + Arrays.toString(array));
         long startTime = System.currentTimeMillis();
-//        popSort(array);    //1348ms
-//        popSort2(array);   //1037ms
-//        selectSort(array);   //419ms
-//        insertSort(array);    //679ms
-//        insertSort2(array);    //311ms
-//        shellSort(array);      //12~19ms
-        shellSort2(array);       //13~17ms
+          ///50000随机数
+//        popSort(array);    //8269ms
+//        popSort2(array);   //6844ms
+//        selectSort(array);   //2832ms
+//        insertSort(array);    //4451ms
+//        insertSort2(array);    //1340ms
+//        shellSort(array);      //13~22ms
+        shellSort2(array);       //8~22ms
         long endTime = System.currentTimeMillis();
 
         System.out.println("数组长度：" + array.length);
         System.out.println("排序总耗时：" + (endTime - startTime) + "ms");
-        System.out.println("排序结果：" + Arrays.toString(array));
+//        System.out.println("排序结果：" + Arrays.toString(array));
     }
 
     /**
@@ -221,34 +223,42 @@ public class Sort {
 
     /**
      * 高效排序
-     * 希尔排序(优化：步长策略：step * 3 + 1)
+     * 希尔排序(优化：步长策略：step = O(n^3/2) Knuth)
      * @param array 待排序数组
      */
-    public static void shellSort2(int [] array){
+    public static void shellSort2(int[] array) {
         int length = array.length;
-        int temp;
+//        int temp;
         int step = 1;
         //求最大步长
-        while(step < length / 3){
+        while (step < length / 3) {
             step = step * 3 + 1;
-            if(step >= length / 3){
-//                System.out.println("最大步长-step:" + step);
-            }
         }
-        while (step >= 1){
+        int i;
+        int j;
+        while (step > 0) {
 //            System.out.println("step-update:" + step);
-            for (int i = step; i < length; i++) {
-                temp = array[i];
+            for (i = step; i < length; i++) {
                 //根据步长计算左边同组元素位置下标
-                int j = i - step;
-                //比较同小组 1组n个元素，做同组的插入排序，每次比较满足条件后，调换2个元素顺序
-                while (j >= 0 && array[j] > temp){
+                j = i - step;
+                //比较同小组 1组n个元素，做同组的插入排序，每次比较满足条件后，调整2个元素顺序
+                while (j >= 0 && array[j] > array[i]) {
+                    //j:左边待比较元素
+                    //(j + step) 同组比较元素
+//                    System.out.println("update-j:"+ j);
+//                    System.out.println("update-step:"+ step);
+//                    System.out.println("update-array[j + step]:"+(j + step));
                     array[j + step] = array[j];
+
+                    //控制while循环跳出逻辑
                     j = j - step;
                 }
-                array[j + step] = temp;
+                //等价 array[0] = array[i];
+                array[j + step] = array[i];
+//                System.out.println("次排序后-array:"+Arrays.toString(array) + "  2个元素交换位置：array["+(j + step)+"]" + "==>>array["+(i)+"]");
             }
-            step = (step - 1) / 3;
+            //步长更新
+            step = step / 3;
         }
 
     }

@@ -7,20 +7,19 @@ public class Sort {
 
     public static void main(String[] args) {
         int[] array = getRandomArrays(20000);
-        long time1=System.currentTimeMillis();
-
+        long startTime = System.currentTimeMillis();
 //        popSort(array);    //1348ms
 //        popSort2(array);   //1037ms
 //        selectSort(array);   //419ms
 //        insertSort(array);    //679ms
 //        insertSort2(array);    //311ms
-        shellSort(array);      //13ms
+//        shellSort(array);      //12~19ms
+        shellSort2(array);       //13~17ms
+        long endTime = System.currentTimeMillis();
 
-        long time2=System.currentTimeMillis();
-
-        System.out.println("排序结果：" + Arrays.toString(array));
         System.out.println("数组长度：" + array.length);
-        System.out.println("排序总耗时："+(time2-time1)+"ms");
+        System.out.println("排序总耗时：" + (endTime - startTime) + "ms");
+        System.out.println("排序结果：" + Arrays.toString(array));
     }
 
     /**
@@ -193,6 +192,7 @@ public class Sort {
 
 
     /**
+     * 高效排序
      * 希尔排序(基础：步长策略(折半)：n/2)
      * @param array 待排序数组
      */
@@ -201,8 +201,10 @@ public class Sort {
         int length = array.length;
         //缓存变量
         int temp;
+        //求最大步长
         int step = length / 2;
         while (step >= 1){
+//            System.out.println("step:" + step);
             for (int i = step; i < length; i++) {
                 temp = array[i];
                 int j = i - step;
@@ -213,8 +215,42 @@ public class Sort {
                 array[j + step] = temp;
 
             }
-            step /= 2;  //步长折半
+            step /= 2;  //步长变化
         }
+    }
+
+    /**
+     * 高效排序
+     * 希尔排序(优化：步长策略：step * 3 + 1)
+     * @param array 待排序数组
+     */
+    public static void shellSort2(int [] array){
+        int length = array.length;
+        int temp;
+        int step = 1;
+        //求最大步长
+        while(step < length / 3){
+            step = step * 3 + 1;
+            if(step >= length / 3){
+//                System.out.println("最大步长-step:" + step);
+            }
+        }
+        while (step >= 1){
+//            System.out.println("step-update:" + step);
+            for (int i = step; i < length; i++) {
+                temp = array[i];
+                //根据步长计算左边同组元素位置下标
+                int j = i - step;
+                //比较同小组 1组n个元素，做同组的插入排序，每次比较满足条件后，调换2个元素顺序
+                while (j >= 0 && array[j] > temp){
+                    array[j + step] = array[j];
+                    j = j - step;
+                }
+                array[j + step] = temp;
+            }
+            step = (step - 1) / 3;
+        }
+
     }
 
 }

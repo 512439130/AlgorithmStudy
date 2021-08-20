@@ -17,24 +17,8 @@ public class Sort {
         array[indexB] = temp;
     }
 
-    public static boolean isSorted(int[] array) {
-        for (int i = 0; i < array.length; i++)
-            if (less(array[i], array[i - 1])) return false;
-        return true;
-    }
-
-    /**
-     * 是否排序
-     * @param v
-     * @param w
-     * @return
-     */
-    private static boolean less(int v, int w) {
-        return v < w;
-    }
-
     public static void main(String[] args) {
-        int[] array = getRandomArrays(50000);
+        int[] array = getRandomArrays(10);
         System.out.println("待排序数组：" + Arrays.toString(array));
         long startTime = System.currentTimeMillis();
           ///50000随机数
@@ -44,7 +28,8 @@ public class Sort {
 //        insertSort(array);    //4451ms
 //        insertSort2(array);    //1340ms
 //        shellSort(array);      //13~22ms
-        shellSort2(array);       //8~22ms
+//        shellSort2(array);       //8~22ms
+        quickSort(array, 0, array.length - 1);    //15~32ms
         long endTime = System.currentTimeMillis();
 
         System.out.println("数组长度：" + array.length);
@@ -55,11 +40,11 @@ public class Sort {
     /**
      * 获取随机数组
      * @param length 数组长度
-     * @return
+     * @return result
      */
     public static int[] getRandomArrays(int length){
         int[] a = new int[length];
-        Random random = new Random(1);
+        Random random = new Random(100);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(length);
         }
@@ -69,6 +54,8 @@ public class Sort {
     /**
      * 冒泡排序（基础版）
      * 稳定性：稳定
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(1)
      * @param array 待排序数组
      */
     public static void popSort(int[] array) {
@@ -89,6 +76,8 @@ public class Sort {
     /**
      * 冒泡排序（优化版）
      * 稳定性：稳定
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(1)
      * 1.增加标志位，当内循环中无元素交换，则结束外层循环体
      * 2.记录内循环的元素交换，减少内层循环次数
      * @param array 待排序数组
@@ -126,6 +115,8 @@ public class Sort {
     /**
      * 选择排序
      * 稳定性：非稳定
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(1)
      * 每次找到数组中最小值的下标(从第1个下标开始，假设它是数组中最小的值，通过循环与全部元素比较，取最小值的下标)，将最小值下标与第1位下标替换，再寻找数组中剩下元素最小的值，再和数组第2位下标替换，一直执行，直到全部位置元素放置完成（从第1位一直排序到数组大小的位置为结束）
      * @param array 待排序数组
      */
@@ -149,6 +140,8 @@ public class Sort {
     /**
      * 插入排序
      * 稳定性：稳定
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(1)
      * 从数组左边开始，第一个位置有序，向右遍历，新元素和（左边）已有序位置数字挨个比较。如果当前比较者小于左边有序数组中的数，则向该位置插入，大于的元素统一向右移动，给新元素腾出空间
      * @param array 待排序数组
      */
@@ -171,6 +164,8 @@ public class Sort {
     /**
      * 插入排序（优化版）
      * 稳定性：稳定
+     * 时间复杂度 O(n^2)
+     * 空间复杂度 O(1)
      * 排序中不需数组交换元素，新元素和左边比较时，如果 array[j] < array[j-1]，则a[j] = array[j-1],更大的数向右覆盖，新元素等到最后合适的位置再放入
      * @param array 待排序数组
      */
@@ -198,9 +193,10 @@ public class Sort {
 
 
     /**
-     * 高效排序
+     * 希尔排序(高效排序)(基础：步长策略(折半)：n/2)
      * 稳定性：非稳定
-     * 希尔排序(基础：步长策略(折半)：n/2)
+     * 时间复杂度 O(n^(1.3—2))
+     * 空间复杂度 O(1)
      * @param array 待排序数组
      */
     public static void shellSort(int[] array) {
@@ -232,9 +228,10 @@ public class Sort {
     }
 
     /**
-     * 高效排序
+     * 希尔排序(高效排序)(优化：步长策略：step = O(n^3/2) Knuth)
      * 稳定性：非稳定
-     * 希尔排序(优化：步长策略：step = O(n^3/2) Knuth)
+     * 时间复杂度 O(N^3/2)
+     * 空间复杂度 O(1)
      * @param array 待排序数组
      */
     public static void shellSort2(int[] array) {
@@ -266,7 +263,74 @@ public class Sort {
             //步长更新，逐步减少,最后step = 1 时 做最后的直接插入排序，保证排序的正确性
             step /= 3;
         }
-
     }
 
+
+    /**
+     * 快速排序（基础版：左右指针）
+     * 稳定性：非稳定
+     * 时间复杂度 O(NLogN)
+     * 空间复杂度 O(logN)
+     * test:[5, 0, 4, 8, 1, 6, 6, 8, 3, 3]
+     * quick-result: partitionIndex:array[5]:5( low:0 high:9) sort[3, 0, 4, 3, 1, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[2]:3( low:0 high:4) sort[1, 0, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[1]:1( low:0 high:1) sort[0, 1, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[0]:0( low:0 high:0) sort[0, 1, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[3]:3( low:3 high:4) sort[0, 1, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[4]:4( low:4 high:4) sort[0, 1, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[6]:6( low:6 high:9) sort[0, 1, 3, 3, 4, 5, 6, 8, 6, 8]
+     * quick-result: partitionIndex:array[8]:8( low:7 high:9) sort[0, 1, 3, 3, 4, 5, 6, 6, 8, 8]
+     * quick-result: partitionIndex:array[7]:6( low:7 high:7) sort[0, 1, 3, 3, 4, 5, 6, 6, 8, 8]
+     * quick-result: partitionIndex:array[9]:8( low:9 high:9) sort[0, 1, 3, 3, 4, 5, 6, 6, 8, 8]
+     * @param array 待排序数组
+     * @param low 待排序数组左边界数组下标
+     * @param high 待排序数组右边界数组下标
+     */
+    private static void quickSort(int[] array, int low, int high) {
+        if(array.length < 2) return;
+        if(low > high) return;
+        //获取切分点元素下标
+        int partitionIndex = doPartitionAndSort(array, low, high);
+        quickSort(array, low, partitionIndex - 1);  //递归调用左半数组
+        quickSort(array, partitionIndex + 1, high);  //递归调用右半数组
+    }
+
+    /**
+     * 切分并排序，获取切分点，提供给下次递归控制边界使用
+     * @param array 待排序数组
+     * @param low 待排序数组左边界数组下标
+     * @param high 待排序数组右边界数组下标
+     * @return 本次排序的切分点
+     */
+    private static int doPartitionAndSort(int[] array, int low, int high) {
+        int left = low;
+        int right = high;
+
+        // 基准数据
+        int temp = array[left];
+        int tempCompare;
+
+        while (left < right) {
+            //右指针遍历
+            while (left < right && array[right] >= temp) {
+                right --;
+            }
+            //左指针遍历
+            while (left < right && array[left] <= temp) {
+                left ++;
+            }
+            //根据基准元素分区，并交换元素
+            if(left < right){
+                tempCompare = array[right];
+                array[right] = array[left];
+                array[left] = tempCompare;
+            }
+        }
+        //array[left] == array[right]
+        //最后将基准元素与切分位置元素互换
+        array[low] = array[left];
+        array[left] = temp;
+        System.out.println("quick:" + " partitionIndex:" + "array[" + left + "]:" + array[left] + "(" + " low:" + low + " high:" + high + ")" + " sort" + Arrays.toString(array));
+        return left; // 返回切分位置
+    }
 }

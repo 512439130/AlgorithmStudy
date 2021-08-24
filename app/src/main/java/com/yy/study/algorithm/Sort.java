@@ -18,9 +18,9 @@ public class Sort {
     }
 
     public static void main(String[] args) {
-        int[] array = getRandomArrays(1000);
-//        int[] array = {3,2,1,8,5,9,4,7,6};
-//        System.out.println("待排序数组：" + Arrays.toString(array));
+//        int[] array = getRandomArrays(1000);
+        int[] array = {4,1,7,6,9,2,8,0,3,5};
+        System.out.println("待排序数组：" + Arrays.toString(array));
         long startTime = System.currentTimeMillis();
           ///50000随机数
 //        popSort(array);    //8269ms
@@ -35,7 +35,7 @@ public class Sort {
 
         System.out.println("数组长度：" + array.length);
         System.out.println("排序总耗时：" + (endTime - startTime) + "ms");
-//        System.out.println("排序结果：" + Arrays.toString(array));
+        System.out.println("排序结果：" + Arrays.toString(array));
     }
 
     /**
@@ -273,66 +273,69 @@ public class Sort {
      * 时间复杂度 O(NLogN)
      * 空间复杂度 O(logN)
      * 待排序数组：[3, 2, 1, 8, 5, 9, 4, 7, 6]
-     * quick: partitionIndex:array[0]:3( low:0 high:8) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
-     * quick: partitionIndex:array[0]:1( low:0 high:1) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
-     * quick: partitionIndex:array[1]:2( low:1 high:1) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
-     * quick: partitionIndex:array[3]:8( low:3 high:8) sort[1, 2, 3, 7, 5, 6, 4, 8, 9]
-     * quick: partitionIndex:array[3]:7( low:3 high:6) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
-     * quick: partitionIndex:array[3]:4( low:3 high:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
-     * quick: partitionIndex:array[4]:5( low:4 high:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
-     * quick: partitionIndex:array[5]:6( low:5 high:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
-     * quick: partitionIndex:array[8]:9( low:8 high:8) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
+     * quick: partitionIndex:array[0]:3( left:0 right:8) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
+     * quick: partitionIndex:array[0]:1( left:0 right:1) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
+     * quick: partitionIndex:array[1]:2( left:1 right:1) sort[1, 2, 3, 8, 5, 9, 4, 7, 6]
+     * quick: partitionIndex:array[3]:8( left:3 right:8) sort[1, 2, 3, 7, 5, 6, 4, 8, 9]
+     * quick: partitionIndex:array[3]:7( left:3 right:6) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
+     * quick: partitionIndex:array[3]:4( left:3 right:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
+     * quick: partitionIndex:array[4]:5( left:4 right:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
+     * quick: partitionIndex:array[5]:6( left:5 right:5) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
+     * quick: partitionIndex:array[8]:9( left:8 right:8) sort[1, 2, 3, 4, 5, 6, 7, 8, 9]
      * @param array 待排序数组
-     * @param low 待排序数组左边界数组下标
-     * @param high 待排序数组右边界数组下标
+     * @param left 待排序数组左边界数组下标
+     * @param right 待排序数组右边界数组下标
      */
-    private static void quickSort(int[] array, int low, int high) {
-        if(array.length < 2) return;
-        if(low > high) return;
-        //获取切分点元素下标
-        int partitionIndex = doPartitionAndSort(array, low, high);
-        quickSort(array, low, partitionIndex - 1);  //递归调用左半数组
-        quickSort(array, partitionIndex + 1, high);  //递归调用右半数组
+    private static void quickSort(int[] array, int left, int right) {
+        //递归结束条件1（空数组，只有一个数字则不需排序）
+        if(array.length <= 1) return;
+        //递归结束条件2（left < right）
+        if(left < right) {
+            //获取切分点元素下标
+            int partitionIndex = partition(array, left, right);
+            // {leftArray} < partitionIndex < {rightArray}
+            quickSort(array, left, partitionIndex - 1);  //递归调用左半数组
+            quickSort(array, partitionIndex + 1, right);  //递归调用右半数组
+        }
     }
 
     /**
-     * 切分并排序，获取切分点，提供给下次递归控制边界使用
-     * 基准数据在左边（首部），则右指针先走
-     * 基准数据在右边（尾部），则左指针先走
+     * 切分为3段（左边，中间，右边）并获取切分点数组下标，提供递归边界控制
+     * 基准数据在左边（首部），则先遍历右指针
+     * 基准数据在右边（尾部），则先遍历左指针
      * @param array 待排序数组
-     * @param low 待排序数组左边界数组下标
-     * @param high 待排序数组右边界数组下标
+     * @param left 待排序数组左边界数组下标
+     * @param right 待排序数组右边界数组下标
      * @return 本次排序的切分点
      */
-    private static int doPartitionAndSort(int[] array, int low, int high) {
-        int left = low;
-        int right = high;
-
-        // 基准数据
+    private static int partition(int[] array, int left, int right) {
+        // 基准数据（左边首元素，先遍历右指针）
         int temp = array[left];
-        int tempCompare;
-
-        while (left < right) {
-            //先遍历右指针，如果有指针已经停留在左指针位置，相遇，则不执行左指针循环，然后替换基准数据和重合坐标数据
+        int leftPointer = left;  //左指针
+        int rightPointer = right; //右指针
+        while (leftPointer < rightPointer) {
+            //因为leftPointer 和 rightPointer一直在改变，内循环必须加上限制条件 leftPointer < rightPointer
             //右指针遍历
-            while (left < right && array[right] >= temp) {
-                right --;
+            while (leftPointer < rightPointer && array[rightPointer] >= temp) {
+                rightPointer --;
             }
             //左指针遍历
-            while (left < right && array[left] <= temp) {
-                left ++;
+            while (leftPointer < rightPointer && array[leftPointer] <= temp) {
+                leftPointer ++;
             }
             //左右指针均寻找到满足情况的元素，则交换两个元素的位置
-            if(left < right){
-                tempCompare = array[right];
-                array[right] = array[left];
-                array[left] = tempCompare;
+            if(leftPointer < rightPointer){
+//                int tempCompare = array[rightPointer];
+//                array[rightPointer] = array[leftPointer];
+//                array[leftPointer] = tempCompare;
+                swap(array,rightPointer,leftPointer);
             }
         }
-        //最后将基准元素与切分位置元素互换
-        array[low] = array[left];
-        array[left] = temp;
-//        System.out.println("quick:" + " partitionIndex:" + "array[" + low + "]:" + temp + "(" + " low:" + low + " high:" + high + ")" + " sort" + Arrays.toString(array));
-        return left; // 返回切分位置
+        //基准元素与左指针元素交换
+//        array[left] = array[leftPointer];
+//        array[leftPointer] = temp;
+        swap(array,left,leftPointer);
+        System.out.println("quick:" + " partitionIndex:" + "array[" + left + "]:" + temp + "(" + " left:" + left + " right:" + right + ")" + " sort" + Arrays.toString(array));
+        return leftPointer; // 返回切分位置
     }
 }

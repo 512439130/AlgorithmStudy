@@ -18,19 +18,21 @@ public class Sort {
     }
 
     public static void main(String[] args) {
-//        int[] array = getRandomArrays(1000);
+//        int[] array = getRandomArrays(20000);
         int[] array = {4,1,7,6,9,2,8,0,3,5};
         System.out.println("待排序数组：" + Arrays.toString(array));
         long startTime = System.currentTimeMillis();
-          ///50000随机数
+          ///20000随机数
 //        popSort(array);    //8269ms
 //        popSort2(array);   //6844ms
 //        selectSort(array);   //2832ms
 //        insertSort(array);    //4451ms
 //        insertSort2(array);    //1340ms
-//        shellSort(array);      //13~22ms
-//        shellSort2(array);       //8~22ms
-        quickSort(array, 0, array.length - 1);    //15~32ms
+//        shellSort(array);      //29~35ms
+//        shellSort2(array);       //29~38ms
+//        quickSort(array, 0, array.length - 1);    //25~35ms
+//        quickSort2(array, 0, array.length - 1);    //21~32ms
+        quickSort3(array, 0, array.length - 1);    //36~44ms
         long endTime = System.currentTimeMillis();
 
         System.out.println("数组长度：" + array.length);
@@ -289,14 +291,13 @@ public class Sort {
     private static void quickSort(int[] array, int left, int right) {
         //递归结束条件1（空数组，只有一个数字则不需排序）
         if(array.length <= 1) return;
-        //递归结束条件2（left < right）
-        if(left < right) {
-            //获取切分点元素下标
-            int partitionIndex = partition(array, left, right);
-            // {leftArray} < partitionIndex < {rightArray}
-            quickSort(array, left, partitionIndex - 1);  //递归调用左半数组
-            quickSort(array, partitionIndex + 1, right);  //递归调用右半数组
-        }
+        //递归结束条件2（left >= right）
+        if(left >= right) return;
+        //获取切分点元素下标
+        int partitionIndex = partition(array, left, right);
+        // {leftArray} < partitionIndex < {rightArray}
+        quickSort(array, left, partitionIndex - 1);  //递归调用左半数组
+        quickSort(array, partitionIndex + 1, right);  //递归调用右半数组
     }
 
     /**
@@ -335,7 +336,82 @@ public class Sort {
 //        array[left] = array[leftPointer];
 //        array[leftPointer] = temp;
         swap(array,left,leftPointer);
-        System.out.println("quick:" + " partitionIndex:" + "array[" + left + "]:" + temp + "(" + " left:" + left + " right:" + right + ")" + " sort" + Arrays.toString(array));
+//        System.out.println("quick:" + " partitionIndex:" + "array[" + left + "]:" + temp + "(" + " left:" + left + " right:" + right + ")" + " sort" + Arrays.toString(array));
         return leftPointer; // 返回切分位置
+    }
+
+
+    /**
+     * 快速排序（挖坑法）
+     * @param array
+     * @param left
+     * @param right
+     */
+    public static void quickSort2(int[] array, int left, int right) {
+        if (array.length <= 1) return;
+        if (left >= right) return;
+        int partitionIndex = partition2(array, left, right);
+        quickSort2(array, left, partitionIndex - 1);
+        quickSort2(array, partitionIndex + 1, right);
+    }
+
+    public static int partition2(int[] array, int left, int right) {
+        //基准数字，right作为第一个坑
+        int key = array[right];
+        while(left < right){
+            //左指针遍历，寻找比基准值(key)大的值
+            while(left < right && array[left] <= key){
+                left ++;
+            }
+            //将左指针对应数值填入坑位,left作为新坑
+            array[right] = array[left];
+            //右指针遍历
+            while(left < right && array[right] >= key){
+                right --;
+            }
+            //将右指针对应数值填入坑位,right作为新坑
+            array[left] = array[right];
+        }
+        //循环结束，left和right相遇
+
+        //将基准值放入最后的坑位,保证key的（左边都<=）（右边都>=）
+        array[right] = key;
+        return left;
+    }
+
+
+    /**
+     * 快速排序（快慢指针法）
+     * @param array
+     * @param left
+     * @param right
+     */
+    public static void quickSort3(int[] array, int left, int right) {
+        if (array.length <= 1) return;
+        if (left >= right) return;
+        int partitionIndex = partition3(array, left, right);
+        quickSort3(array, left, partitionIndex);
+        quickSort3(array, partitionIndex + 2, right);  // +2保证递归时，慢指针位置正确
+    }
+
+    public static int partition3(int[] array, int left, int right) {
+        //将最右边的数字作为基准值
+        int key = array[right];
+
+        //快指针
+        int quickPointer = left;
+        // 慢指针slowPointer的作用是标记基准值最后应该在的位置
+        int slowPointer = left - 1;
+
+
+        while(quickPointer < right){  //由快指针quickPointer一直比较到基准值的前一位
+            if(array[quickPointer] < key){
+                slowPointer ++;  //慢指针向前移动一位
+                swap(array,quickPointer,slowPointer);  //交换快慢指针下标对应数值
+            }
+            quickPointer ++; //快指针向前移动一位
+        }
+        swap(array,slowPointer + 1,right);  //交换慢指针下标前一位和right元素
+        return slowPointer;
     }
 }

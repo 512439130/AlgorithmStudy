@@ -2,9 +2,11 @@ package com.yy.study.algorithm;
 
 import android.annotation.SuppressLint;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +17,13 @@ public class AlgorithmStudy {
 //        System.out.println(singleNumber2(num));
 //        System.out.println(singleNumber3(num));
 //        System.out.println(singleNumber4(num));
-        int[] num = {2, 2, 1, 1, 1, 2, 2};
-        System.out.println(majorityElement3(num));
+//        int[] num = {2, 2, 1, 1, 1, 2, 2};
+//        System.out.println(majorityElement3(num));
+
+//        int[] num = {2,2};
+//        int[] num = {2,1,1,3,1,4,5,6};
+        int[] num = {1,1,1,3,3,2,2,2};
+        System.out.println(majorityElement1_3_2(num));
     }
 
 
@@ -153,4 +160,107 @@ public class AlgorithmStudy {
         return temp;
     }
 
+
+    /**
+     * 给定一个大小为 n 的整数数组，找出其中所有出现超过 ⌊ n/3 ⌋ 次的元素
+     * 摩尔投票法则，大于n/k的众数最多出现 k-1个 例如 n/3: 3-1 = 2个
+     * 因为题目没有保证数组一定出现超过n/3次的元素，所有情况会有3种：
+     * Situation 1: 2个候选人大于n/3
+     * Situation 2: 1个候选人大于n/3
+     * Situation 3: 0个候选人大于n/3
+     * @param numbers
+     * @return
+     */
+    public static List<Integer> majorityElement1_3_1(int[] numbers) {
+        List<Integer> result = new ArrayList<>();
+//        Set<Integer> set= new HashSet<>();
+        if (numbers == null || numbers.length == 0) return result;
+        //候选人1和他的票数
+        int candidate1 = -1;
+        int count1 = 0;
+        //候选人2和他的票数
+        int candidate2 = -1;
+        int count2 = 0;
+        // 摩尔投票法分为两个阶段: 配对阶段和计数阶段
+        // 1.配对阶段，选出候选人
+        for (int number : numbers) {
+            //候选人1票数加+1
+            if(candidate1 == number){
+                count1++;
+                continue;
+            }
+            //候选人1票数加+1
+            if(candidate2 == number){
+                count2++;
+                continue;
+            }
+            //候选人1配对
+            if(count1 == 0){
+                candidate1 = number;
+                count1++;
+                continue;
+            }
+            //候选人2配对
+            if(count2 == 0){
+                candidate2 = number;
+                count2++;
+                continue;
+            }
+
+            // 如果count1和count2的数量都不为0，则说明候选人1,2的票数还有，那这一票属于非候选人的票，则执行3消，候选人1,2票数都-1
+            count1--;
+            count2--;
+        }
+        System.out.println("候选人1: " + candidate1);
+        System.out.println("候选人2: " + candidate2);
+
+        //2.计数阶段
+        //循环遍历取候选人最终结果
+        // 因为题目没有保证数组一定出现超过n/3次的元素，所有情况会有3种：
+        // Situation 1: 2个候选人大于n/3
+        // Situation 2: 1个候选人大于n/3
+        // Situation 3: 0个候选人大于n/3
+        count1 = 0;
+        count2 = 0;
+        for(int number: numbers){
+            if(candidate1 == number){
+                count1++;
+            } else if(candidate2 == number){
+                count2++;
+            }
+        }
+        if(count1 > (numbers.length / 3)){
+            result.add(candidate1);
+        }
+        if(count2 > (numbers.length / 3)){
+            result.add(candidate2);
+        }
+        return result;
+    }
+
+    /**
+     * 给定一个大小为 n 的整数数组，找出其中所有出现超过 ⌊ n/3 ⌋ 次的元素
+     * 通过哈希表解法
+     * @param numbers
+     * @return
+     */
+    public static List<Integer> majorityElement1_3_2(int[] numbers) {
+        List<Integer> result = new ArrayList<>();
+        if(numbers == null || numbers.length == 0) return result;
+        //哈希表解法
+        Map<Integer,Integer> numberMap = new HashMap<>();
+        for(int number: numbers){
+            if(numberMap.containsKey(number)){
+                numberMap.put(number, numberMap.get(number) + 1);
+            } else {
+                numberMap.put(number, 1);
+            }
+        }
+        for(int number: numbers){
+            if(numberMap.get(number) > (numbers.length / 3)){
+                if(!result.contains(number)) result.add(number);
+            }
+        }
+        return result;
+    }
 }

@@ -12,6 +12,7 @@ import java.util.Set;
 
 public class AlgorithmStudy {
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
 //        int[] num = {1,2,3,3,2,5,7,5,1};
 //        System.out.println(singleNumber(num));
 //        System.out.println(singleNumber2(num));
@@ -22,8 +23,20 @@ public class AlgorithmStudy {
 
 //        int[] num = {2,2};
 //        int[] num = {2,1,1,3,1,4,5,6};
-        int[] num = {1,1,1,3,3,2,2,2};
-        System.out.println(majorityElement1_3_2(num));
+//        int[] num = {1,1,1,3,3,2,2,2};
+//        System.out.println(majorityElement1_3_2(num));
+
+//        int[][] matrix = new int[][]{{1,4,7,11,15},{2,5,8,12,19},{3,6,9,16,22},{10,13,14,17,24},{18,21,23,26,30}};
+//        int[][] matrix = new int[][]{{2,2}};
+//        System.out.println(searchMatrix2(matrix,21));
+
+        int[] num1 = new int[]{1,4,5,6,0,0};
+        int[] num2 = new int[]{5,8};
+        merge4(num1,4,num2,2);
+        System.out.println("merge-result:" + Arrays.toString(num1));
+        long endTime = System.currentTimeMillis();
+        System.out.println("算法耗时：" + (endTime - startTime) + "ms");
+
     }
 
 
@@ -263,4 +276,274 @@ public class AlgorithmStudy {
         }
         return result;
     }
+
+
+    /**
+     * 搜索二维矩阵 II
+     * 每行的所有元素从左到右升序排列
+     * 每列的所有元素从上到下升序排列
+     * 时间复杂度 T(N) = O(NLogN)
+     * 空间复杂度 S(N) = O(1)
+     */
+    public static boolean searchMatrix(int[][] matrix, int target) {
+        //分治思想：大问题分解成多个子问题，二维数组查找拆分为m个一维数组（matrix[m]）的查找
+        //二分查找：二维数组每行所有元素从左到右升序排列，可以运用二分查找技术，逐个遍历搜索元素
+        if(matrix == null || matrix.length == 0 ) return false;
+        //优化：每行所有元素从左到右升序排列，则先用target查看是否在每一个一维数组的区间内，再二分查找
+        for (int[] array : matrix) {
+            if(target >= array[0] && target <= array[array.length - 1]){
+                if (binarySearch(array, target)) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 二分查找
+     * 时间复杂度 T(N) = O(LogN)
+     * 空间复杂度 S(N) = O(1)
+     * @param array 数组
+     * @param target 查找数字
+     * @return result 是否存在
+     */
+    public static boolean binarySearch(int[] array, int target){
+        if(array.length == 1) return array[0] == target;
+        int start = 0;
+        int end = array.length - 1;
+        int mid;
+        while (start <= end){
+            mid = (start + end) / 2; //start + (end - start) 等价 (start + end) / 2
+            if(target < array[mid]){
+                end = mid - 1;
+            } else if(target > array[mid]){
+                start = mid + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    /**
+     * 搜索二维矩阵 II（双向二分查找）
+     * 每行的所有元素从左到右升序排列
+     * 每列的所有元素从上到下升序排列
+     * 时间复杂度 T(N) = O(lg(n!))
+     * 空间复杂度 S(N) = O(1)
+     */
+    public static boolean searchMatrix2(int[][] matrix, int target) {
+        //分治思想：大问题分解成多个子问题，二维数组查找拆分为m个一维数组（matrix[m]）的查找
+        //二分查找：二维数组每行所有元素从左到右升序排列，可以运用二分查找技术，逐个遍历搜索元素
+        //搜索优化：从行，列2个方向并行二分查找，提高效率
+        if(matrix == null || matrix.length == 0 ) return false;
+        //取行和列的最小值
+        int min = Math.min(matrix.length,matrix[0].length);
+        for (int i = 0; i < min; i++) {
+            //二分查找每一行（由上到下）
+            if (binarySearch2(matrix, target, i, true)) return true;
+            //二分查找每一列（由左到右）
+            if (binarySearch2(matrix, target, i, false)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * 二分查找（多方向）
+     * 同时搜索二维数组的行和列
+     * @param array 数组
+     * @param target 目标数字
+     * @param lo 开始的下标（行或列）
+     * @param isHorizontal 方向：是否水平方向搜索
+     * @return result 是否存在
+     */
+    public static boolean binarySearch2(int[][] array, int target, int lo, boolean isHorizontal){
+        //左上角开始搜索
+        int start = lo;
+        int end = isHorizontal ? array[0].length - 1 : array.length - 1;
+        int mid;
+        while (start <= end){
+            mid = (start + end) / 2;
+            if(isHorizontal){  //搜索水平方向（列）
+                if(target < array[lo][mid]){
+                    end = mid - 1;
+                } else if(target > array[lo][mid]){
+                    start = mid + 1;
+                } else {
+                    return true;
+                }
+            } else { //搜索竖直方向(行)
+                if(target < array[mid][lo]){
+                    end = mid - 1;
+                } else if(target > array[mid][lo]){
+                    start = mid + 1;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 搜索二维矩阵 II（双向二分查找）
+     * 每行的所有元素从左到右升序排列
+     * 每列的所有元素从上到下升序排列
+     * 时间复杂度 T(N) = O(m + n)
+     * 空间复杂度 S(N) = O(1)
+     */
+    public boolean searchMatrix3(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0 ) return false;
+        //左下角的指针
+        int row = matrix.length - 1;
+        int col = 0;
+        while (row >= 0 && col < matrix[0].length){
+            if(matrix[row][col] > target){ //当前指向的值大于目标值，“向上” 移动一行
+                row--;
+            } else if(matrix[row][col] < target){ //当前指向的值小于目标值，“向右” 移动一列
+                col++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 合并两个有序数组
+     * 合并+排序
+     * 时间复杂度：T(N) = O((m+n)Log(m+n))
+     * 空间复杂度：S(N) = O(Log(m+n))
+     * @param nums1 有序数组1
+     * @param m 数组1的长度
+     * @param nums2 有序数组2
+     * @param n 数组2的长度
+     */
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        //先合并再排序
+        for (int i = 0; i < n; i++) {
+            nums1[m + i] = nums2[i];
+        }
+        Arrays.sort(nums1);
+    }
+
+    /**
+     * 合并两个有序数组
+     * 双指针遍历插入数组 (正序遍历)
+     * @param nums1 有序数组1
+     * @param m 数组1的长度
+     * @param nums2 有序数组2
+     * @param n 数组2的长度
+     */
+    public static void merge2(int[] nums1, int m, int[] nums2, int n) {
+        //通过双指针记录两个数组的访问下标，通过轮训不断比较并插入合适的位置
+        //归并排序思路：创建一个适合大小的数组，将2个数组按照大小依次放入新数组中完成合并
+        if(nums1 == null || nums2 == null)  return;
+        if(m == 0 && n == 0)  return;
+        int[] temp = new int[m + n];
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        //2个数组中，其中一个数组长度为0，则结果 = 其中一个数组
+        if(m == 0 && n != 0){
+            int y = 0;
+            while(y < n){
+                nums1[index++] = nums2[y++];
+            }
+            return;
+        } else if(n == 0 && m != 0){
+            return;
+        }
+        while (i < m && j < n) {
+            if (nums1[i] <= nums2[j]) {
+                temp[index++] = nums1[i++];
+            } else if (nums1[i] > nums2[j]) {
+                temp[index++] = nums2[j++];
+            }
+        }
+        //检查nums1和nums2是否全部合并
+        //1.nums1剩余元素直接按顺序加入temp
+        while(i < m){
+            temp[index++] = nums1[i++];
+        }
+        //2.nums2剩余元素直接按顺序加入temp
+        while (j < n) {
+            temp[index++] = nums2[j++];
+        }
+        //copy temp数组给num1
+        int k = 0;
+        while (k < temp.length) {
+            nums1[k] = temp[k++];
+        }
+    }
+
+
+    /**
+     * 合并两个有序数组
+     * 双指针遍历插入数组(正序遍历-优化)
+     * 时间复杂度：T(N) = O(m+n)
+     * 空间复杂度：S(N) = O(m+n)
+     * @param nums1 有序数组1
+     * @param m 数组1的长度
+     * @param nums2 有序数组2
+     * @param n 数组2的长度
+     */
+    public static void merge3(int[] nums1, int m, int[] nums2, int n) {
+        //通过双指针记录两个数组的访问下标，通过轮训不断比较并插入合适的位置
+        //归并排序思路：创建一个适合大小的数组，将2个数组按照大小依次放入新数组中完成合并
+        if (nums1 == null || nums2 == null) return;
+        if (m == 0 && n == 0) return;
+        //合并临时数组
+        int[] temp = new int[m + n];
+        int i = 0;
+        int j = 0;
+        int current;
+        while (i < m || j < n) {
+            if (i == m) {
+                current = nums2[j++];
+            } else if (j == n) {
+                current = nums1[i++];
+            } else if (nums1[i] < nums2[j]) {
+                current = nums1[i++];
+            } else {
+                current = nums2[j++];
+            }
+            temp[i + j - 1] = current;
+        }
+        //copy temp数组给num1
+        int k = 0;
+        while (k < temp.length) {
+            nums1[k] = temp[k++];
+        }
+    }
+
+    /**
+     * 合并两个有序数组
+     * 双指针遍历插入数组(逆序 优化)
+     * 时间复杂度：T(N) = O(m+n)
+     * 空间复杂度：S(N) = O(1)
+     * @param nums1 有序数组1
+     * @param m 数组1的长度
+     * @param nums2 有序数组2
+     * @param n 数组2的长度
+     */
+    public static void merge4(int[] nums1, int m, int[] nums2, int n) {
+        if (nums1 == null || nums2 == null) return;
+        if (m == 0 && n == 0) return;
+        int i = m - 1;
+        int j = n - 1;
+        while (i >= 0 || j >= 0) {
+            if (i == -1) {
+                nums1[i + j + 1] = nums2[j--];
+            } else if (j == -1) {
+                nums1[i + j + 1] = nums1[i--];
+            } else if (nums1[i] > nums2[j]) {
+                nums1[i + j + 1] = nums1[i--];
+            } else {
+                nums1[i + j + 1] = nums2[j--];
+            }
+        }
+    }
+
 }

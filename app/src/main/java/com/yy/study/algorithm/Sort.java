@@ -1,5 +1,7 @@
 package com.yy.study.algorithm;
 
+import com.yy.study.util.TimeTestUtils;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -11,33 +13,75 @@ public class Sort {
      * @param indexA  位置A
      * @param indexB  位置B
      */
-    public static void swap(int[] array, int indexA, int indexB) {
+    public void swap(int[] array, int indexA, int indexB) {
         int temp = array[indexA];
         array[indexA] = array[indexB];
         array[indexB] = temp;
     }
 
-    public static void main(String[] args) {
-//        int[] array = getRandomArrays(20000);
-        int[] array = {4,1,7,6,9,2,8,0,3,5};
-        System.out.println("待排序数组：" + Arrays.toString(array));
-        long startTime = System.currentTimeMillis();
-          ///20000随机数
-//        popSort(array);    //8269ms
-//        popSort2(array);   //6844ms
-//        selectSort(array);   //2832ms
-//        insertSort(array);    //4451ms
-//        insertSort2(array);    //1340ms
-//        shellSort(array);      //29~35ms
-//        shellSort2(array);       //29~38ms
-//        quickSort(array, 0, array.length - 1);    //25~35ms
-//        quickSort2(array, 0, array.length - 1);    //21~32ms
-        quickSort3(array, 0, array.length - 1);    //36~44ms
-        long endTime = System.currentTimeMillis();
+    public Sort() {
+    }
 
-        System.out.println("数组长度：" + array.length);
-        System.out.println("排序总耗时：" + (endTime - startTime) + "ms");
-        System.out.println("排序结果：" + Arrays.toString(array));
+    public static void main(String[] args) {
+        testTask();
+        testTasks();
+    }
+
+    private static void testTask() {
+        Sort sort = new Sort();
+        int[] array = sort.getRandomArrays(20000);
+        System.out.println("-------------------Task--------------------");
+        System.out.println("【数组长度】" + array.length);
+        //单个排序测速
+        TimeTestUtils.testTask("快速排序", new TimeTestUtils.Task() {
+            @Override
+            public void execute() {
+                sort.quickSort3(array, 0, array.length - 1);    //36~44ms
+            }
+        });
+        System.out.println("-------------------Task--------------------\n");
+    }
+
+    private static void testTasks() {
+        Sort sort = new Sort();
+        int[] array = sort.getRandomArrays(50000);
+        System.out.println("-------------------Tasks--------------------");
+        System.out.println("【数组长度】" + array.length);
+        int[] array0 =  Arrays.copyOf(array,array.length);
+        int[] array1 =  Arrays.copyOf(array,array.length);
+        int[] array2 = Arrays.copyOf(array,array.length);
+        int[] array3 = Arrays.copyOf(array,array.length);
+        int[] array4 = Arrays.copyOf(array,array.length);
+
+        String[] titles = {"冒泡排序","选择排序","插入排序","希尔排序","快速排序"};
+        TimeTestUtils.Task[] tasks = new TimeTestUtils.Task[titles.length];
+        for (int i = 0; i < tasks.length; i++) {
+            String key = String.valueOf(i);
+            tasks[i] = new TimeTestUtils.Task() {
+                @Override
+                public void execute() {
+                    switch (key){
+                        case "0":
+                            sort.popSort2(array0);
+                            break;
+                        case "1":
+                            sort.selectSort(array1);
+                            break;
+                        case "2":
+                            sort.insertSort2(array2);
+                            break;
+                        case "3":
+                            sort.shellSort2(array3);
+                            break;
+                        case "4":
+                            sort.quickSort2(array4, 0, array.length - 1);
+                            break;
+                    }
+                }
+            };
+        }
+        TimeTestUtils.testTasks(titles,tasks);
+        System.out.println("-------------------Tasks--------------------\n");
     }
 
     /**
@@ -45,7 +89,7 @@ public class Sort {
      * @param length 数组长度
      * @return result
      */
-    public static int[] getRandomArrays(int length){
+    public int[] getRandomArrays(int length){
         int[] a = new int[length];
         Random random = new Random(100);
         for (int i = 0; i < a.length; i++) {
@@ -61,7 +105,7 @@ public class Sort {
      * 空间复杂度 O(1)
      * @param array 待排序数组
      */
-    public static void popSort(int[] array) {
+    public void popSort(int[] array) {
         if (array == null || array.length < 2) return;
         for (int i = 0; i <= array.length - 1; i++) {
 //            int popCount = 0;
@@ -85,7 +129,7 @@ public class Sort {
      * 2.记录内循环的元素交换，减少内层循环次数
      * @param array 待排序数组
      */
-    public static void popSort2(int[] array) {
+    public void popSort2(int[] array) {
         if (array == null || array.length < 2) return;
         int popPosition = array.length - 1; //记录交换位置
         int len = array.length - 1;
@@ -123,7 +167,7 @@ public class Sort {
      * 每次找到数组中最小值的下标(从第1个下标开始，假设它是数组中最小的值，通过循环与全部元素比较，取最小值的下标)，将最小值下标与第1位下标替换，再寻找数组中剩下元素最小的值，再和数组第2位下标替换，一直执行，直到全部位置元素放置完成（从第1位一直排序到数组大小的位置为结束）
      * @param array 待排序数组
      */
-    public static void selectSort(int[] array) {
+    public void selectSort(int[] array) {
         if (array == null || array.length < 2) return;
         int len = array.length;
         for (int i = 0; i < len - 1; i++) {
@@ -148,7 +192,7 @@ public class Sort {
      * 从数组左边开始，第一个位置有序，向右遍历，新元素和（左边）已有序位置数字挨个比较。如果当前比较者小于左边有序数组中的数，则向该位置插入，大于的元素统一向右移动，给新元素腾出空间
      * @param array 待排序数组
      */
-    public static void insertSort(int[] array){
+    public void insertSort(int[] array){
         if (array == null || array.length < 2) return;
         int len = array.length;
         for (int i = 1; i < len; i++) {
@@ -172,7 +216,7 @@ public class Sort {
      * 排序中不需数组交换元素，新元素和左边比较时，如果 array[j] < array[j-1]，则a[j] = array[j-1],更大的数向右覆盖，新元素等到最后合适的位置再放入
      * @param array 待排序数组
      */
-    public static void insertSort2(int[] array){
+    public void insertSort2(int[] array){
         if(array == null || array.length < 2) return;
         int len = array.length;
         int temp;
@@ -202,7 +246,7 @@ public class Sort {
      * 空间复杂度 O(1)
      * @param array 待排序数组
      */
-    public static void shellSort(int[] array) {
+    public void shellSort(int[] array) {
         if(array == null || array.length < 2) return;
         //步长
         int length = array.length;
@@ -237,7 +281,7 @@ public class Sort {
      * 空间复杂度 O(1)
      * @param array 待排序数组
      */
-    public static void shellSort2(int[] array) {
+    public void shellSort2(int[] array) {
         if(array == null || array.length < 2) return;
         //顺序输出
         int length = array.length;
@@ -288,7 +332,7 @@ public class Sort {
      * @param left 待排序数组左边界数组下标
      * @param right 待排序数组右边界数组下标
      */
-    private static void quickSort(int[] array, int left, int right) {
+    private void quickSort(int[] array, int left, int right) {
         //递归结束条件1（空数组，只有一个数字则不需排序）
         if(array.length <= 1) return;
         //递归结束条件2（left >= right）
@@ -309,7 +353,7 @@ public class Sort {
      * @param right 待排序数组右边界数组下标
      * @return 本次排序的切分点
      */
-    private static int partition(int[] array, int left, int right) {
+    private int partition(int[] array, int left, int right) {
         // 基准数据（左边首元素，先遍历右指针）
         int temp = array[left];
         int leftPointer = left;  //左指针
@@ -347,7 +391,7 @@ public class Sort {
      * @param left
      * @param right
      */
-    public static void quickSort2(int[] array, int left, int right) {
+    public void quickSort2(int[] array, int left, int right) {
         if (array.length <= 1) return;
         if (left >= right) return;
         int partitionIndex = partition2(array, left, right);
@@ -355,7 +399,7 @@ public class Sort {
         quickSort2(array, partitionIndex + 1, right);
     }
 
-    public static int partition2(int[] array, int left, int right) {
+    public int partition2(int[] array, int left, int right) {
         //基准数字，right作为第一个坑
         int key = array[right];
         while(left < right){
@@ -386,7 +430,7 @@ public class Sort {
      * @param left
      * @param right
      */
-    public static void quickSort3(int[] array, int left, int right) {
+    public void quickSort3(int[] array, int left, int right) {
         if (array.length <= 1) return;
         if (left >= right) return;
         int partitionIndex = partition3(array, left, right);
@@ -394,7 +438,7 @@ public class Sort {
         quickSort3(array, partitionIndex + 2, right);  // +2保证递归时，慢指针位置正确
     }
 
-    public static int partition3(int[] array, int left, int right) {
+    public int partition3(int[] array, int left, int right) {
         //将最右边的数字作为基准值
         int key = array[right];
 

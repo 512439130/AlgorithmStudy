@@ -1,4 +1,4 @@
-package com.yy.study.algorithm;
+package com.yy.study.algorithm.leetcode;
 
 import com.yy.study.util.TimeTestUtils;
 

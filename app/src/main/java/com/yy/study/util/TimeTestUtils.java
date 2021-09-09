@@ -1,5 +1,7 @@
 package com.yy.study.util;
 
+import java.util.Random;
+
 /**
  * 算法执行时间测试工具类
  */
@@ -7,6 +9,20 @@ public class TimeTestUtils {
 
     public interface Task {
         void execute();
+    }
+
+    /**
+     * 获取随机数组
+     * @param length 数组长度
+     * @return result
+     */
+    public static int[] getRandomArrays(int length){
+        int[] a = new int[length];
+        Random random = new Random(100);
+        for (int i = 0; i < a.length; i++) {
+            a[i] = random.nextInt(length);
+        }
+        return a;
     }
 
     /**
@@ -20,7 +36,7 @@ public class TimeTestUtils {
         long startTime = System.currentTimeMillis();
         task.execute();
         long endTime = System.currentTimeMillis();
-        System.out.println("TimeTestUtils ==>> " + "【" + title + "】" + " 耗时：" + (endTime - startTime) + "ms");
+        System.out.println("===>>>" + "【" + title + "】" + " 耗时：" + (endTime - startTime) + "ms\n");
     }
 
     /**
@@ -34,7 +50,8 @@ public class TimeTestUtils {
             long startTime = System.currentTimeMillis();
             tasks[i].execute();
             long endTime = System.currentTimeMillis();
-            System.out.println("TimeTestUtils ==>> " + "【" + title[i] + "】" + " 耗时：" + (endTime - startTime) + "ms");
+            System.out.println("===>>>" + "【" + title[i] + "】" + " 耗时：" + (endTime - startTime) + "ms\n");
         }
     }
+
 }

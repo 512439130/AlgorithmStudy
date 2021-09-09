@@ -1,4 +1,4 @@
-package com.yy.study.algorithm;
+package com.yy.study.algorithm.other;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

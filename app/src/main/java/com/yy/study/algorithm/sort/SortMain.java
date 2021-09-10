@@ -6,25 +6,28 @@ import java.util.Arrays;
 
 public class SortMain {
     public static void main(String[] args) {
-        int[] array = TimeTestUtils.getRandomArrays(20000);
-        testSorts(array,
-                new BubbleSort3(),
-                new SelectionSort1(),
-                new InsertSort2(),
-                new ShellSort2(),
-                new QuickSort3(),
-                new HeapSort()
+        BaseSort<Integer>[] sorts = new BaseSort[10];
+        testSorts(
+                new BubbleSort3<Integer>(),
+                new SelectionSort2<Integer>(),
+                new InsertSort2<Integer>(),
+                new ShellSort2<Integer>(),
+                new QuickSort3<Integer>(),
+                new HeapSort<Integer>(),
+                new MergeSort<Integer>()
         );
     }
 
-    private static void testSorts(int[] array, BaseSort... sorts){
-        for(BaseSort sort : sorts){
+    private static void testSorts(BaseSort<Integer>... sorts){
+        Integer[] array = TimeTestUtils.getRandomIntegerArrays(20);
+        for(BaseSort<Integer> sort : sorts){
             sort.sort(Arrays.copyOf(array,array.length));
         }
 
-        //打印排序结果
+        //对排序对象排序（耗时快慢）
         Arrays.sort(sorts);
-        for (BaseSort sort:sorts) {
+        //打印排序结果
+        for (BaseSort<Integer> sort:sorts) {
             System.out.println(sort);
         }
     }

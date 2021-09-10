@@ -1,21 +1,24 @@
 package com.yy.study.algorithm.sort;
 
-import java.util.Arrays;
-
 /**
  * 堆排序
  * 时间复杂度 O(NLogN)
  * 空间复杂度 O(1)
  * 稳定性：不稳定
  */
-public class HeapSort extends BaseSort{
+public class HeapSort<E extends Comparable<E>> extends BaseSort<E>{
+    @Override
+    public boolean isStable() {
+        return false;
+    }
+
     /**
      * 对树节点i堆化操作
      * @param tree 堆的树形结构（数组）
      * @param n 树的节点数：数组的总长度
      * @param i 堆中树形结构的第i个节点
      */
-    private void heapify(int[] tree,int n, int i){
+    private void heapify(E[] tree,int n, int i){
         if(i >= n){
             return;
         }
@@ -24,10 +27,10 @@ public class HeapSort extends BaseSort{
         //当前i节点的左右节点
         int left = 2 * i + 1;
         int right = 2 * i + 2;
-        if(left < n && tree[left] > tree[parent]){
+        if(left < n && (tree[left].compareTo(tree[parent]) > 0)){
             parent = left;
         }
-        if(right < n && tree[right] > tree[parent]){
+        if(right < n && (tree[right].compareTo(tree[parent]) > 0)){
             parent = right;
         }
         if(parent != i){
@@ -39,10 +42,10 @@ public class HeapSort extends BaseSort{
 
     /**
      * 生成最大堆
-     * @param tree
-     * @param n
+     * @param tree 数组
+     * @param n 数组长度
      */
-    private void buildMaxHeap(int[] tree, int n){
+    private void buildMaxHeap(E[] tree, int n){
         //根据堆属性，通过最后一个叶子节点求最后一个叶子节点的父节点
         //parent(i) = floor((i - 1) / 2)  floor 向下取证
         int last = n - 1;

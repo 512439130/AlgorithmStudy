@@ -400,7 +400,7 @@ public class AlgorithmStudy {
         int end = isHorizontal ? array[0].length - 1 : array.length - 1;
         int mid;
         while (start <= end){
-            mid = (start + end) / 2;
+            mid = start + (end - start) >> 1;
             if(isHorizontal){  //搜索水平方向（列）
                 if(target < array[lo][mid]){
                     end = mid - 1;

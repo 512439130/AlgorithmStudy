@@ -3,7 +3,11 @@ package com.yy.study.algorithm.sort;
 /**
  * 快速排序3（快慢指针法）
  */
-public class QuickSort3 extends BaseSort {
+public class QuickSort3<E extends Comparable<E>> extends BaseSort<E> {
+    @Override
+    public boolean isStable() {
+        return true;
+    }
 
     @Override
     protected void sort() {
@@ -25,7 +29,7 @@ public class QuickSort3 extends BaseSort {
 
     public int partition3(int left, int right) {
         //将最右边的数字作为基准值
-        int key = array[right];
+        E key = array[right];
 
         //快指针
         int quickPointer = left;

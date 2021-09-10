@@ -6,7 +6,12 @@ package com.yy.study.algorithm.sort;
  * 空间复杂度 O(1)
  * 稳定性：稳定
  */
-public class InsertSort1 extends BaseSort {
+public class InsertSort1<E extends Comparable<E>> extends BaseSort<E> {
+    @Override
+    public boolean isStable() {
+        return true;
+    }
+
     @Override
     protected void sort() {
         //默认升序排列

@@ -6,13 +6,17 @@ package com.yy.study.algorithm.sort;
  * 空间复杂度 O(1)
  * 稳定性：非稳定
  */
-public class ShellSort1 extends BaseSort {
+public class ShellSort1<E extends Comparable<E>> extends BaseSort<E> {
+    @Override
+    public boolean isStable() {
+        return true;
+    }
 
     @Override
     protected void sort() {
         int length = array.length;
         //缓存变量
-        int temp;
+        E temp;
         //求最大步长
         int step = length / 2;
         int i;

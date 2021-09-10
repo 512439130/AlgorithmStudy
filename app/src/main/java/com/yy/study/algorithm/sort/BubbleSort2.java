@@ -6,7 +6,11 @@ package com.yy.study.algorithm.sort;
  * 空间复杂度 O(1)
  * 稳定性：稳定
  */
-public class BubbleSort2 extends BaseSort {
+public class BubbleSort2<E extends Comparable<E>> extends BaseSort<E> {
+    @Override
+    public boolean isStable() {
+        return true;
+    }
 
     @Override
     protected void sort() {

@@ -3,10 +3,10 @@ package com.yy.study.algorithm.sort;
 /**
  * 快速排序2（挖坑法）
  */
-public class QuickSort2 extends BaseSort {
+public class QuickSort2<E extends Comparable<E>> extends BaseSort<E> {
     @Override
-    protected String title() {
-        return  getClass().getSimpleName() + " 挖坑法";
+    public boolean isStable() {
+        return true;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class QuickSort2 extends BaseSort {
      * @param left
      * @param right
      */
-    public void quickSort2(int[] array, int left, int right) {
+    public void quickSort2(E[] array, int left, int right) {
         if (array.length <= 1) return;
         if (left >= right) return;
         int partitionIndex = partition2(array, left, right);
@@ -28,9 +28,9 @@ public class QuickSort2 extends BaseSort {
         quickSort2(array, partitionIndex + 1, right);
     }
 
-    public int partition2(int[] array, int left, int right) {
+    public int partition2(E[] array, int left, int right) {
         //基准数字，right作为第一个坑
-        int key = array[right];
+        E key = array[right];
         while(left < right){
             //左指针遍历，寻找比基准值(key)大的值
             while(left < right && compare(array[left],key) <= 0){

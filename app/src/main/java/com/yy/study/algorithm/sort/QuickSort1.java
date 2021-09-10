@@ -6,10 +6,10 @@ package com.yy.study.algorithm.sort;
  * 空间复杂度 O(logN)
  * 稳定性：非稳定
  */
-public class QuickSort1 extends BaseSort {
+public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {
     @Override
-    protected String title() {
-        return getClass().getSimpleName() + " 左右指针";
+    public boolean isStable() {
+        return true;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class QuickSort1 extends BaseSort {
      */
     private int partition(int left, int right) {
         // 基准数据（左边首元素，先遍历右指针）
-        int temp = array[left];
+        E temp = array[left];
         int leftPointer = left;  //左指针
         int rightPointer = right; //右指针
         while (leftPointer < rightPointer) {

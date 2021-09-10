@@ -24,6 +24,19 @@ public class TimeTestUtils {
         }
         return a;
     }
+    /**
+     * 获取随机数组
+     * @param length 数组长度
+     * @return result
+     */
+    public static Integer[] getRandomIntegerArrays(int length){
+        Integer[] a = new Integer[length];
+        Random random = new Random(6666);
+        for (int i = 0; i < a.length; i++) {
+            a[i] = random.nextInt(length);
+        }
+        return a;
+    }
 
     /**
      * 测试算法耗时 Task单独任务

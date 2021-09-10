@@ -1,5 +1,7 @@
 package com.yy.study.algorithm.sort;
 
+import java.util.Arrays;
+
 /**
  * 归并排序
  */
@@ -37,6 +39,7 @@ public class MergeSort<E extends Comparable<E>> extends BaseSort<E> {
      * @param right 数组右边界下标
      */
     private void merge(E[] array, int left, int middle, int right){
+        System.out.println("left:" + left + " right:" + right + " middle:" + middle + " array:" + Arrays.toString(array));
         int leftArraySize = middle - left;
         int rightArraySize = right - middle + 1;
         Integer[] leftArray = new Integer[leftArraySize];

@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class SortMain {
     public static void main(String[] args) {
-        BaseSort<Integer>[] sorts = new BaseSort[10];
         testSorts(
                 new BubbleSort3<Integer>(),
                 new SelectionSort2<Integer>(),
@@ -19,7 +18,8 @@ public class SortMain {
     }
 
     private static void testSorts(BaseSort<Integer>... sorts){
-        Integer[] array = TimeTestUtils.getRandomIntegerArrays(20);
+//        Integer[] array = TimeTestUtils.getRandomIntegerArrays(20);
+        Integer[] array = {5,2,8,4,7,1,9,6};
         for(BaseSort<Integer> sort : sorts){
             sort.sort(Arrays.copyOf(array,array.length));
         }

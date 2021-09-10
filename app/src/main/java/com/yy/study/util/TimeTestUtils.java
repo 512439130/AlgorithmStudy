@@ -18,7 +18,7 @@ public class TimeTestUtils {
      */
     public static int[] getRandomArrays(int length){
         int[] a = new int[length];
-        Random random = new Random(100);
+        Random random = new Random(8888);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(length);
         }

@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 /**
  * 堆排序
+ * 时间复杂度 O(NLogN)
+ * 空间复杂度 O(1)
+ * 稳定性：不稳定
  */
 public class HeapSort extends BaseSort{
     /**
@@ -55,7 +58,7 @@ public class HeapSort extends BaseSort{
         int treeParent = 0;
         //生成最大堆，第0个数值为最大值
         buildMaxHeap(array,length);
-        System.out.println("buildHeap:"+Arrays.toString(array));
+//        System.out.println("buildHeap:"+Arrays.toString(array));
         for (int i = length - 1; i >= 0; i--) {
             //数组的最大值array[0] 和数组最后位置交换
             swap(i,treeParent);

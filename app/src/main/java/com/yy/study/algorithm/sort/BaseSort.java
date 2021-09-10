@@ -2,7 +2,7 @@ package com.yy.study.algorithm.sort;
 
 import java.util.Arrays;
 
-public abstract class BaseSort {
+public abstract class BaseSort implements Comparable<BaseSort>{
     protected int[] array;
     /**
      * 比较次数
@@ -22,6 +22,11 @@ public abstract class BaseSort {
      * 待排序数组
      */
     protected int[] oldArray;
+
+    /**
+     * 是否打印数组排序前后情况
+     */
+    private boolean isPrintArray = false;
 
     protected String title() {
         return getClass().getSimpleName();
@@ -68,22 +73,46 @@ public abstract class BaseSort {
         this.array[i2] = temp;
     }
 
+    /**
+     * 交换待排序数组中的元素
+     * @param array
+     * @param i1
+     * @param i2
+     */
+    protected void swap(int[]array, int i1, int i2) {
+        swapCount++;
+        int temp = array[i1];
+        array[i1] = array[i2];
+        array[i2] = temp;
+    }
+
+    //实现Comparable 接口 的compareTo方法后，对象可以使用Array.sort方法排序
+    @Override
+    public int compareTo(BaseSort o) {
+        if(time == o.time){
+            if(compareCount == o.compareCount){
+                return (int)(swapCount - o.swapCount);
+            }
+            return (int)(compareCount - o.compareCount);
+        }
+        return (int)(time - o.time);
+    }
+
     @Override
     public String toString() {
-        String oldArrayStr = "==>>待排数组: " + Arrays.toString(oldArray);
-        String newArrayStr = "==>>结果数组: " + Arrays.toString(array);
-        String lengthStr = "==>>数组长度: " + array.length;
-        String timerStr = "==>>算法耗时: " + time + "ms";
-        String compareCountStr = "==>>比较次数: " + compareCount;
-        String swapCountStr = "==>>交换次数: " + swapCount;
+        String oldArrayStr = "==>>待排数组:" + Arrays.toString(oldArray);
+        String newArrayStr = "==>>结果数组:" + Arrays.toString(array);
+        String lengthStr = "==>>数组长度:" + array.length;
+        String timerStr = "==>>耗时:" + time + "ms";
+        String compareCountStr = "==>>比较:" + compareCount;
+        String swapCountStr = "==>>交换:" + swapCount;
 
-        return "===============" + "【" + title() + "】" + "===============\n"
-                + oldArrayStr + "\n"
-                + newArrayStr + "\n"
-                + lengthStr + "\n"
+        return "-----------------------" + "【" + title() + "】" + "-----------------------\n"
+                + (isPrintArray ? (lengthStr + "\n") : "")
+                + (isPrintArray ? (oldArrayStr + "\n") : "")
+                + (isPrintArray ? (newArrayStr + "\n") : "")
                 + timerStr + "\n"
                 + compareCountStr + "\n"
-                + swapCountStr + "\n"
-                + "===============" + "【" + title() + "】" + "===============\n";
+                + swapCountStr;
     }
 }

@@ -4,10 +4,6 @@ package com.yy.study.algorithm.sort;
  * 快速排序3（快慢指针法）
  */
 public class QuickSort3 extends BaseSort {
-    @Override
-    protected String title() {
-        return getClass().getSimpleName() + " 快慢指针法";
-    }
 
     @Override
     protected void sort() {

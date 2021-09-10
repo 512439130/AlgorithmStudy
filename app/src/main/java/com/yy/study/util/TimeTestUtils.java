@@ -36,7 +36,7 @@ public class TimeTestUtils {
         long startTime = System.currentTimeMillis();
         task.execute();
         long endTime = System.currentTimeMillis();
-        System.out.println("===>>>" + "【" + title + "】" + " 耗时：" + (endTime - startTime) + "ms\n");
+        System.out.println("===>>>" + "【" + title + "】" + " 执行任务耗时：" + (endTime - startTime) + "ms\n");
     }
 
     /**
@@ -50,7 +50,7 @@ public class TimeTestUtils {
             long startTime = System.currentTimeMillis();
             tasks[i].execute();
             long endTime = System.currentTimeMillis();
-            System.out.println("===>>>" + "【" + title[i] + "】" + " 耗时：" + (endTime - startTime) + "ms\n");
+            System.out.println("===>>>" + "【" + title[i] + "】" + " 执行任务耗时：" + (endTime - startTime) + "ms\n");
         }
     }
 

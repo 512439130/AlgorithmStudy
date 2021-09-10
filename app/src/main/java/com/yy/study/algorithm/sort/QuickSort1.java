@@ -4,7 +4,7 @@ package com.yy.study.algorithm.sort;
  * 快速排序1（基础版：左右指针）
  * 时间复杂度 O(NLogN)
  * 空间复杂度 O(logN)
- * 稳定性：非稳定
+ * 稳定性：不稳定
  */
 public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {
     @Override
@@ -19,7 +19,7 @@ public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {
 
     /**
      * 快速排序（基础版：左右指针）
-     * 稳定性：非稳定
+     * 稳定性：不稳定
      * 时间复杂度 O(NLogN)
      * 空间复杂度 O(logN)
      * 待排序数组：[3, 2, 1, 8, 5, 9, 4, 7, 6]

@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 /**
  * 归并排序
+ * 时间复杂度 O(NLogN)
+ * 空间复杂度 O(N)
+ * 稳定性：不稳定
  */
 public class MergeSort<E extends Comparable<E>> extends BaseSort<E> {
     @Override

@@ -4,7 +4,7 @@ package com.yy.study.algorithm.sort;
  * 希尔排序1
  * 时间复杂度 O(n^(1.3—2))
  * 空间复杂度 O(1)
- * 稳定性：非稳定
+ * 稳定性：不稳定
  */
 public class ShellSort1<E extends Comparable<E>> extends BaseSort<E> {
     @Override

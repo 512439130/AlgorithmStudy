@@ -16,9 +16,9 @@ public class QuickSort2<E extends Comparable<E>> extends BaseSort<E> {
 
     /**
      * 快速排序（挖坑法）
-     * @param array
-     * @param left
-     * @param right
+     * @param array array
+     * @param left left
+     * @param right right
      */
     public void quickSort2(E[] array, int left, int right) {
         if (array.length <= 1) return;

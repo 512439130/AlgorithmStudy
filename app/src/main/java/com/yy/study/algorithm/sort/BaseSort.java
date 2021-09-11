@@ -2,6 +2,7 @@ package com.yy.study.algorithm.sort;
 
 import java.util.Arrays;
 
+
 public abstract class BaseSort<E extends Comparable<E>> implements Comparable<BaseSort<E>> {
     /**
      * 是否打印数组排序前后情况
@@ -64,9 +65,9 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
      * >0 array[i1] > array[i2]
      * <0 array[i1] < array[i2]
      *
-     * @param a1
-     * @param a2
-     * @return
+     * @param a1 数据a1
+     * @param a2 数据a2
+     * @return return
      */
     protected int compare(E a1, E a2) {
         if (a1 == null || a2 == null) return 0;
@@ -77,8 +78,8 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
     /**
      * 交换待排序数组中的元素
      *
-     * @param i1
-     * @param i2
+     * @param i1 i1
+     * @param i2 i2
      */
     protected void swap(int i1, int i2) {
         swapCount++;
@@ -90,9 +91,9 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
     /**
      * 交换待排序数组中的元素
      *
-     * @param array
-     * @param i1
-     * @param i2
+     * @param array array
+     * @param i1 数组下标i1
+     * @param i2 数组下标i2
      */
     protected void swap(int[] array, int i1, int i2) {
         swapCount++;
@@ -116,7 +117,7 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
     /**
      * 数组是否升序
      *
-     * @return
+     * @return boolean
      */
     public boolean isSortAscending() {
         for (int i = 0; i < array.length - 1; i++) {
@@ -130,7 +131,7 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
     /**
      * 数组是否降序
      *
-     * @return
+     * @return boolean
      */
     public boolean isSortDescending() {
         for (int i = 0; i < array.length; i++) {
@@ -140,6 +141,7 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
         }
         return true;
     }
+
 
     @Override
     public String toString() {
@@ -151,7 +153,6 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
         String swapCountStr = "==>>交换:" + swapCount;
         String isSortAscending = "==>>排序正确性:" + isSortAscending();
         String isStable = "==>>排序稳定性:" + isStable();
-
         return "-----------------------" + "【" + title() + "】" + "-----------------------\n"
                 + (isPrintArray() ? (lengthStr + "\n") : "")
                 + (isPrintArray() ? (oldArrayStr + "\n") : "")

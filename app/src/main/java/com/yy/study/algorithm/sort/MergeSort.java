@@ -8,6 +8,7 @@ import java.util.Arrays;
  * 空间复杂度 O(N)
  * 稳定性：不稳定
  */
+@SuppressWarnings("unchecked")
 public class MergeSort<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     protected boolean isPrintArray() {

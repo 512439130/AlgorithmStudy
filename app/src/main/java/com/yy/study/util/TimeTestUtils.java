@@ -18,7 +18,7 @@ public class TimeTestUtils {
      */
     public static int[] getRandomArrays(int length){
         int[] a = new int[length];
-        Random random = new Random(8888);
+        Random random = new Random();
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(length);
         }
@@ -31,7 +31,21 @@ public class TimeTestUtils {
      */
     public static Integer[] getRandomIntegerArrays(int length){
         Integer[] a = new Integer[length];
-        Random random = new Random(6666);
+        Random random = new Random();
+        for (int i = 0; i < a.length; i++) {
+            a[i] = random.nextInt(length);
+        }
+        return a;
+    }
+
+    /**
+     * 获取种子随机数组(通过种子生成，每次相同)
+     * @param length 数组长度
+     * @return result
+     */
+    public static Integer[] getConstantRandomIntegerArrays(int length){
+        Integer[] a = new Integer[length];
+        Random random = new Random(100);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(length);
         }

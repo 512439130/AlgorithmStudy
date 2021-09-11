@@ -16,8 +16,8 @@ public class QuickSort3<E extends Comparable<E>> extends BaseSort<E> {
 
     /**
      * 快速排序（快慢指针法）
-     * @param left
-     * @param right
+     * @param left left
+     * @param right right
      */
     public void quickSort3(int left, int right) {
         if (array.length <= 1) return;

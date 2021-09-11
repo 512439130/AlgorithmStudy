@@ -3,7 +3,7 @@ package com.yy.study.algorithm.sort;
 import com.yy.study.util.TimeTestUtils;
 
 import java.util.Arrays;
-
+@SuppressWarnings("unchecked")
 public class SortMain {
     public static void main(String[] args) {
         testSorts(
@@ -18,8 +18,8 @@ public class SortMain {
     }
 
     private static void testSorts(BaseSort<Integer>... sorts){
-//        Integer[] array = TimeTestUtils.getRandomIntegerArrays(20);
-        Integer[] array = {5,2,8,4,7,1,9,6};
+        Integer[] array = TimeTestUtils.getRandomIntegerArrays(20);
+//        Integer[] array = {5,2,8,4,7,1,9,6};
         for(BaseSort<Integer> sort : sorts){
             sort.sort(Arrays.copyOf(array,array.length));
         }

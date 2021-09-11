@@ -9,7 +9,7 @@ package com.yy.study.algorithm.sort;
 public class ShellSort2<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ShellSort2<E extends Comparable<E>> extends BaseSort<E> {
                 //1.根据步长计算左侧同组元素位置下标
                 j = i - step;
                 //2.同小组做直接插入排序（array[j + step] 和 array[j]）,比较满足条件后，调整2个元素顺序(1,2)
-                for (; j >= 0 && compare(array[j],temp) > 0; j = j - step) {
+                for (; j >= 0 && array[j].compareTo(temp) > 0; j = j - step) {
                     //1
                     array[j + step] = array[j];
                     //记录交换次数

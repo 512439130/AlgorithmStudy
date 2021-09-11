@@ -6,7 +6,7 @@ package com.yy.study.algorithm.sort;
 public class QuickSort3<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class QuickSort3<E extends Comparable<E>> extends BaseSort<E> {
 
 
         while(quickPointer < right){  //由快指针quickPointer一直比较到基准值的前一位
-            if(compare(array[quickPointer],key) < 0){
+            if(array[quickPointer].compareTo(key) < 0){
                 slowPointer ++;  //慢指针向前移动一位
                 swap(quickPointer,slowPointer);  //交换快慢指针下标对应数值
             }

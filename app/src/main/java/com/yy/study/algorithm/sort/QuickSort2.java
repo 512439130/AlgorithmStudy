@@ -6,7 +6,7 @@ package com.yy.study.algorithm.sort;
 public class QuickSort2<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -33,13 +33,13 @@ public class QuickSort2<E extends Comparable<E>> extends BaseSort<E> {
         E key = array[right];
         while(left < right){
             //左指针遍历，寻找比基准值(key)大的值
-            while(left < right && compare(array[left],key) <= 0){
+            while(left < right && array[left].compareTo(key) <= 0){
                 left ++;
             }
             //将左指针对应数值填入坑位,left作为新坑
             array[right] = array[left];
             //右指针遍历
-            while(left < right && compare(array[right],key) >= 0){
+            while(left < right && array[right].compareTo(key) >= 0){
                 right --;
             }
             //将右指针对应数值填入坑位,right作为新坑

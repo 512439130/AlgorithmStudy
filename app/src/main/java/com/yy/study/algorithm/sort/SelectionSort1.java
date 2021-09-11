@@ -9,7 +9,7 @@ package com.yy.study.algorithm.sort;
 public class SelectionSort1<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class SelectionSort1<E extends Comparable<E>> extends BaseSort<E> {
         for (int i = 0; i < array.length - 1; i++) {
             minIndex = i;
             for (int j = i + 1; j < array.length; j++) {
-                if (compare(array[j], array[minIndex]) < 0) {
+                if (array[j].compareTo(array[minIndex]) < 0) {
                     minIndex = j;
                 }
             }

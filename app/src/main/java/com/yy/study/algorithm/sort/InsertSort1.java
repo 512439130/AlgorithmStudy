@@ -18,7 +18,7 @@ public class InsertSort1<E extends Comparable<E>> extends BaseSort<E> {
         //两两比较，首个元素默认有序，第i个元素和第i-1个元素比较，array[i] < array[i-1]，则交换2个元素
         for (int i = 1; i < array.length; i++) {
             for (int j = i; j > 0; j--) {
-                if (compare(array[j], array[j - 1]) < 0) {
+                if (array[j].compareTo(array[j - 1]) < 0) {
                     swap(j, j - 1);
                 } else {
                     //因为左边有序，当else时，则证明新元素大于左边元素，跳出循环。

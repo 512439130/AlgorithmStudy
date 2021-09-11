@@ -9,7 +9,7 @@ package com.yy.study.algorithm.sort;
 public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -63,24 +63,19 @@ public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {
         while (leftPointer < rightPointer) {
             //因为leftPointer 和 rightPointer一直在改变，内循环必须加上限制条件 leftPointer < rightPointer
             //右指针遍历
-            while (leftPointer < rightPointer && compare(array[rightPointer],temp) >= 0) {
+            while (leftPointer < rightPointer && array[rightPointer].compareTo(temp) >= 0) {
                 rightPointer --;
             }
             //左指针遍历
-            while (leftPointer < rightPointer && compare(array[leftPointer],temp) <= 0) {
+            while (leftPointer < rightPointer && array[leftPointer].compareTo(temp) <= 0) {
                 leftPointer ++;
             }
             //左右指针均寻找到满足情况的元素，则交换两个元素的位置
             if(leftPointer < rightPointer){
-//                int tempCompare = array[rightPointer];
-//                array[rightPointer] = array[leftPointer];
-//                array[leftPointer] = tempCompare;
                 swap(rightPointer,leftPointer);
             }
         }
         //基准元素与左指针元素交换
-//        array[left] = array[leftPointer];
-//        array[leftPointer] = temp;
         swap(left,leftPointer);
 //        System.out.println("quick:" + " partitionIndex:" + "array[" + left + "]:" + temp + "(" + " left:" + left + " right:" + right + ")" + " sort" + Arrays.toString(array));
         return leftPointer; // 返回切分位置

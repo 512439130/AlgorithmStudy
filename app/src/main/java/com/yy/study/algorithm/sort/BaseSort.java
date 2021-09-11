@@ -105,6 +105,7 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
     //实现Comparable 接口 的compareTo方法后，对象可以使用Array.sort方法排序
     @Override
     public int compareTo(BaseSort<E> nextSort) {
+        compareCount ++;
         if (time == nextSort.time) {
             if (compareCount == nextSort.compareCount) {
                 return (int) (swapCount - nextSort.swapCount);
@@ -120,6 +121,20 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
      * @return boolean
      */
     public boolean isSortAscending() {
+        for (int i = 0; i < array.length - 1; i++) {
+            if (array[i].compareTo(array[i + 1]) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 数组是否升序
+     *
+     * @return boolean
+     */
+    public boolean isSortAscending(E[] array) {
         for (int i = 0; i < array.length - 1; i++) {
             if (array[i].compareTo(array[i + 1]) > 0) {
                 return false;

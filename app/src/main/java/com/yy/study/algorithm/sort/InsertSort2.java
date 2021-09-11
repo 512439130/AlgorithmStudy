@@ -22,7 +22,7 @@ public class InsertSort2<E extends Comparable<E>> extends BaseSort<E> {
             temp = array[i];
             int j;
             for(j = i; j > 0; j--){
-                if(compare(temp,array[j - 1]) < 0){
+                if (temp.compareTo(array[j - 1]) < 0) {
                     array[j] = array[j-1];
 //                    System.out.println("交换元素 " + "array[" + j + "]=" + "array[" + (j - 1) + "] ==>> " + array[j]);
 //                    System.out.println("交换后 array:" + Arrays.toString(array));

@@ -9,7 +9,7 @@ package com.yy.study.algorithm.sort;
 public class SelectionSort2<E extends Comparable<E>> extends BaseSort<E> {
     @Override
     public boolean isStable() {
-        return true;
+        return false;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class SelectionSort2<E extends Comparable<E>> extends BaseSort<E> {
         for (int end = array.length - 1; end > 0; end--) {
             maxIndex = 0;
             for (int begin = 1; begin <= end; begin++) {
-                if (compare(array[maxIndex], array[begin]) < 0) {
+                if (array[maxIndex].compareTo(array[begin]) < 0) {
                     maxIndex = begin;
                 }
             }

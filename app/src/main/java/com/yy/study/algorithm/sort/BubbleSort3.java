@@ -18,7 +18,7 @@ public class BubbleSort3<E extends Comparable<E>> extends BaseSort<E> {
         for (int end = array.length - 1; end > 0; end--) {
             sortIndex = 1;
             for (int begin = 1; begin <= end; begin++) {
-                if (compare(array[begin], array[begin - 1]) < 0) {
+                if (array[begin].compareTo(array[begin - 1]) < 0) {
                     swap(begin,begin - 1);
                     sortIndex = begin;
                 }

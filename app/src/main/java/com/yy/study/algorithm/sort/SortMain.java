@@ -7,9 +7,9 @@ import java.util.Arrays;
 public class SortMain {
     public static void main(String[] args) {
         testSorts(
-                new BubbleSort3<Integer>(),
-                new SelectionSort2<Integer>(),
-                new InsertSort2<Integer>(),
+//                new BubbleSort3<Integer>(),
+//                new SelectionSort2<Integer>(),
+//                new InsertSort2<Integer>(),
                 new ShellSort2<Integer>(),
                 new QuickSort3<Integer>(),
                 new HeapSort<Integer>(),
@@ -18,7 +18,7 @@ public class SortMain {
     }
 
     private static void testSorts(BaseSort<Integer>... sorts){
-        Integer[] array = TimeTestUtils.getRandomIntegerArrays(500000);
+        Integer[] array = TimeTestUtils.getRandomIntegerArrays(5000000);
 //        Integer[] array = {5,2,8,4,7,1,9,6};
 //        Integer[] array = {5,2,8,4,1,6,7,9};
         for(BaseSort<Integer> sort : sorts){

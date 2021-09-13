@@ -32,7 +32,7 @@ public class MergeSort<E extends Comparable<E>> extends BaseSort<E> {
         mergeSort(array, left, middle); //left
         mergeSort(array, middle + 1, right); //right
 
-        //测试数组是否已经有序
+        //测试数组是否已经有序(优化点1)
         if(array[middle].compareTo(array[middle + 1] ) <= 0) return;
         //合并
         merge(array, left, middle + 1, right); //merge

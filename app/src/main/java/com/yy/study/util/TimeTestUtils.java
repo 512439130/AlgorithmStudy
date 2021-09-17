@@ -60,10 +60,11 @@ public class TimeTestUtils {
     public static void testTask(String title, Task task) {
         if (task == null) return;
         title = title == null ? "null" : title;
+        System.out.println("===>>>" + "【" + title + "】");
         long startTime = System.currentTimeMillis();
         task.execute();
         long endTime = System.currentTimeMillis();
-        System.out.println("===>>>" + "【" + title + "】" + " 执行任务耗时：" + (endTime - startTime) + "ms\n");
+        System.out.println("耗时：" + (endTime - startTime) + "ms\n");
     }
 
     /**
@@ -74,10 +75,11 @@ public class TimeTestUtils {
     public static void testTasks(String[] title, Task[] tasks) {
         if (tasks == null || tasks.length == 0) return;
         for (int i = 0; i < tasks.length; i++) {
+            System.out.println("===>>>" + "【" + title[i] + "】");
             long startTime = System.currentTimeMillis();
             tasks[i].execute();
             long endTime = System.currentTimeMillis();
-            System.out.println("===>>>" + "【" + title[i] + "】" + " 执行任务耗时：" + (endTime - startTime) + "ms\n");
+            System.out.println("耗时：" + (endTime - startTime) + "ms\n");
         }
     }
 

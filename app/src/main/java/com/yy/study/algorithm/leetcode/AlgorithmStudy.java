@@ -1,5 +1,6 @@
 package com.yy.study.algorithm.leetcode;
 
+import com.yy.study.algorithm.link.ListNode;
 import com.yy.study.util.TimeTestUtils;
 
 import java.util.ArrayList;
@@ -319,13 +320,32 @@ public class AlgorithmStudy {
 //            }
 //        });
 
-        TimeTestUtils.testTask("找到所有数组中消失的数字", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("找到所有数组中消失的数字", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+////                int[] nums1 = {4,3,2,7,8,2,3,1};
+////                System.out.println("result1:" + algorithmStudy.findDisappearedNumbers(nums1));
+//                int[] nums2 = {4,3,2,7,8,2,3,1};
+//                System.out.println("result1:" + algorithmStudy.findDisappearedNumbers2(nums2));
+//            }
+//        });
+
+        TimeTestUtils.testTask("链表中倒数第k个节点", new TimeTestUtils.Task() {
             @Override
             public void execute() {
-//                int[] nums1 = {4,3,2,7,8,2,3,1};
-//                System.out.println("result1:" + algorithmStudy.findDisappearedNumbers(nums1));
-                int[] nums2 = {4,3,2,7,8,2,3,1};
-                System.out.println("result1:" + algorithmStudy.findDisappearedNumbers2(nums2));
+                int[] nums = {1,2,3,4,5,6,7,8};
+                ListNode listNode = ListNode.listToListNode(nums);
+                int k = 3;
+//                ListNode result = algorithmStudy.getKthFromEnd(listNode,k);
+//                System.out.println("result1:" + result + " result: "+result.val);
+//                ListNode result2 = algorithmStudy.getKthFromEnd2(listNode,k);
+//                System.out.println("result2:" + result2 + " result2: "+result2.val);
+//                ListNode result3 = algorithmStudy.getKthFromEnd3(listNode, k);
+//                System.out.println("result2:" + result3 + " result2: "+result2.val);
+                ListNode result4 = algorithmStudy.getKthFromEnd4(listNode, k);
+                System.out.println("result4:" + result4 + " result4: "+result4.val);
+                ListNode result5 = algorithmStudy.getKthFromEnd5(listNode, k);
+                System.out.println("result5:" + result5 + " result5: " + result5.val);
             }
         });
     }
@@ -3559,5 +3579,120 @@ public class AlgorithmStudy {
             }
         }
         return result;
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 先求链表总长度，再通过遍历取倒数K个节点
+     */
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        int length = 0;
+        //先求链表的总长度
+        ListNode temp = head;
+        while (temp.next != null){
+            length ++;
+            temp = temp.next;
+        }
+        //因为链表最后一个节点的next为空，所以未计数最后一个节点的数量
+        //所以链表总长度 length = length + 1
+        length = length + 1;
+        //再求对应位置的节点(倒数第k个节点:从头遍历的第(length - k)个节点
+        temp = head;
+        for (int i = 1; i <= length - k; i++) {
+            temp = temp.next;
+        }
+        System.out.println("链表长度为-length:"+length);
+        return temp;
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 通过双指针-快慢指针
+     */
+    public ListNode getKthFromEnd2(ListNode head, int k) {
+        //双指针-快慢指针
+        ListNode slow = head;
+        ListNode fast = head;
+
+        //1.先找到正数的第k个节点 ==>> fast指针指向该节点
+        //i初始化为1: fast最开始已经指向第1位,
+        for (int i = 1; i < k; i++) {
+            fast = fast.next;
+        }
+        //2.fast slow 同步向后遍历，当fast的next为null时，结束循环
+        while(fast.next != null){
+            slow = slow.next;
+            fast = fast.next;
+            System.out.println("slow移动到: " + slow.val + " fast移动到: "+ fast.val);
+        }
+        //此时slow指针指向的是 倒数第k个节点
+        return slow;
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 通过转换list顺序存储，下标获取
+     */
+    public ListNode getKthFromEnd3(ListNode head, int k) {
+        //链表转换list，变为顺序存储，下标获取
+        List<ListNode> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head);
+            head = head.next;
+        }
+        return list.get(list.size() - k);
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 双指针-快慢指针-一个for循环
+     */
+    public ListNode getKthFromEnd4(ListNode head, int k) {
+        //双指针-快慢指针-一个for循环
+
+        //快慢指针
+        ListNode slow = head;
+        ListNode fast = head;
+        //统计快指针遍历数量
+        int count = 0;
+        while(fast != null){
+            if(count >= k){
+                slow = slow.next;
+            }
+            fast = fast.next;
+            count++;
+        }
+        if(count < k){
+            return null;
+        }
+        return slow;
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 递归思想
+     */
+    //size记录递归返回的次数
+    private int size = 0;
+    private boolean flag = false;
+    private ListNode getKthFromEnd5(ListNode head, int k){
+        //递归的结束条件 触链表底(head == null)
+        if(head == null){
+            return null;
+        }
+        ListNode node = getKthFromEnd5(head.next,k);
+        //已经找到节点，结束剩余递归每层的函数
+        if(flag) return node;
+
+        //递归到最后一个链表节点时，触底反弹，返回上一层递归函数
+        //每返回上一层，都计数一次
+        size++;
+        //当返回第k次递归栈时
+        if(size == k){
+            //找到目标节点并设置标识，优化不同递归层级函数调用多余逻辑
+            flag = true;
+            return head;
+        }
+        return node;
     }
 }

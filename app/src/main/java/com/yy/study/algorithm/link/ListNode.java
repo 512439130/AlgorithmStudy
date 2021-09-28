@@ -12,7 +12,7 @@ public class ListNode {
      * 下一个节点
      */
     public ListNode next;
-
+    public ListNode() {}
     public ListNode(int val) {
         this.val = val;
     }
@@ -53,6 +53,17 @@ public class ListNode {
         int[] array = {1,3,2,5,4};
         ListNode listNode = listToListNode(array);
         System.out.println(listNode);
+    }
+
+    public static void print(ListNode head){
+        while (head != null){
+            System.out.print(head.val);
+            if(head.next != null){
+                System.out.print("->");
+            }
+            head = head.next;
+        }
+        System.out.println("\t");
     }
 
 

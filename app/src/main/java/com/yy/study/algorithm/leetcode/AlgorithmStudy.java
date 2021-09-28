@@ -3,6 +3,8 @@ package com.yy.study.algorithm.leetcode;
 import com.yy.study.algorithm.link.ListNode;
 import com.yy.study.util.TimeTestUtils;
 
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -330,22 +332,103 @@ public class AlgorithmStudy {
 //            }
 //        });
 
-        TimeTestUtils.testTask("链表中倒数第k个节点", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("链表中倒数第k个节点", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,5,6,7,8};
+//                ListNode listNode = ListNode.listToListNode(nums);
+//                int k = 3;
+////                ListNode result = algorithmStudy.getKthFromEnd(listNode,k);
+////                System.out.println("result1:" + result + " result: "+result.val);
+////                ListNode result2 = algorithmStudy.getKthFromEnd2(listNode,k);
+////                System.out.println("result2:" + result2 + " result2: "+result2.val);
+////                ListNode result3 = algorithmStudy.getKthFromEnd3(listNode, k);
+////                System.out.println("result2:" + result3 + " result2: "+result2.val);
+//                ListNode result4 = algorithmStudy.getKthFromEnd4(listNode, k);
+//                System.out.println("result4:" + result4 + " result4: "+result4.val);
+//                ListNode result5 = algorithmStudy.getKthFromEnd5(listNode, k);
+//                System.out.println("result5:" + result5 + " result5: " + result5.val);
+//            }
+//        });
+
+
+//        TimeTestUtils.testTask("反转链表", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,5};
+//                ListNode listNode = ListNode.listToListNode(nums);
+////                ListNode result1 = algorithmStudy.reverseList(listNode);
+////                ListNode result2 = algorithmStudy.reverseList2(listNode);
+//                ListNode result3 = algorithmStudy.reverseList3(listNode);
+////                ListNode.print(result1);
+////                ListNode.print(result2);
+//                System.out.print("result: ");
+//                ListNode.print(result3);
+//
+//            }
+//        });
+
+//        TimeTestUtils.testTask(" 移除链表元素", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,5,3,6,5,4,8,5};
+//                int val = 5;
+//                ListNode listNode = ListNode.listToListNode(nums);
+//                System.out.print("old: ");
+//                ListNode.print(listNode);
+//                ListNode result1 = algorithmStudy.removeElements3(listNode,val);
+//                System.out.print("result: ");
+//                ListNode.print(result1);
+//
+//            }
+//        });
+
+//        TimeTestUtils.testTask("普通数组转化稀疏数组", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[][] array = new int[10][10];
+//                array[1][2] = 1;
+//                array[3][1] = 2;
+//                array[2][2] = 2;
+//                System.out.println("原数组");
+//                for (int[] numbers : array) {
+//                    for (int number : numbers) {
+//                        System.out.print(number + "\t" );
+//                    }
+//                    System.out.println();
+//                }
+//
+//                int[][] result = algorithmStudy.toSparseArray(array);
+//                System.out.println("稀疏数组");
+//                for (int[] numbers : result) {
+//                    for (int number : numbers) {
+//                        System.out.print(number + "\t" );
+//                    }
+//                    System.out.println();
+//                }
+//
+//                int[][] result2 = algorithmStudy.toArray(result);
+//                System.out.println("稀疏数组转换成普通数组");
+//                for (int[] numbers : result2) {
+//                    for (int number : numbers) {
+//                        System.out.print(number + "\t" );
+//                    }
+//                    System.out.println();
+//                }
+//            }
+//        });
+
+        TimeTestUtils.testTask("删除链表的倒数第 N 个结点", new TimeTestUtils.Task() {
             @Override
             public void execute() {
                 int[] nums = {1,2,3,4,5,6,7,8};
-                ListNode listNode = ListNode.listToListNode(nums);
-                int k = 3;
-//                ListNode result = algorithmStudy.getKthFromEnd(listNode,k);
-//                System.out.println("result1:" + result + " result: "+result.val);
-//                ListNode result2 = algorithmStudy.getKthFromEnd2(listNode,k);
-//                System.out.println("result2:" + result2 + " result2: "+result2.val);
-//                ListNode result3 = algorithmStudy.getKthFromEnd3(listNode, k);
-//                System.out.println("result2:" + result3 + " result2: "+result2.val);
-                ListNode result4 = algorithmStudy.getKthFromEnd4(listNode, k);
-                System.out.println("result4:" + result4 + " result4: "+result4.val);
-                ListNode result5 = algorithmStudy.getKthFromEnd5(listNode, k);
-                System.out.println("result5:" + result5 + " result5: " + result5.val);
+                ListNode head = ListNode.listToListNode(nums);
+                int n = 2;
+                System.out.print("head: ");
+                ListNode.print(head);
+                ListNode result = algorithmStudy.removeNthFromEnd3(head,n);
+                System.out.print("result: ");
+                ListNode.print(result);
             }
         });
     }
@@ -3695,4 +3778,359 @@ public class AlgorithmStudy {
         }
         return node;
     }
+
+    /**
+     * 206. 反转链表
+     * List解法
+     */
+    public ListNode reverseList(ListNode head) {
+        if(head == null) return null;
+        List<Integer> list = new ArrayList<>();
+        while(head != null){
+            list.add(head.val);
+            head = head.next;
+        }
+        // 生成链表的根节点(头结点) ==>> root.data = array[0]
+        ListNode root = new ListNode(list.get(list.size() - 1));
+        //pre(前一个节点)为根节点(临时节点)
+        ListNode pre = root;
+
+        //创建新链表时：前置节点pre初始化为头结点，pre不断更新，并且更新pre.next，
+        for (int i = list.size() - 2; i >= 0; i--) {
+            //创建当前节点
+            ListNode node = new ListNode(list.get(i));
+            pre.next = node;
+            //更新前置节点
+            pre = node;
+        }
+        return root;
+    }
+
+    /**
+     * 206. 反转链表
+     * 双指针解法-原地反转
+     */
+    public ListNode reverseList2(ListNode head) {
+        if(head == null){
+            return null;
+        }
+        //记录前置节点(初始化: 头结点的前置节点为空)
+        ListNode pre = null;
+        //记录当前节点(初始化: 头结点)
+        ListNode cur  = head;
+        //在指针引用更改时，会丢失原cur.next节点的引用，需要用临时指针temp记录一下
+        ListNode temp;
+
+        //遍历过程中，cur不断更新，并且修改cur.next
+        //当cur为空时，遍历结束
+        while (cur != null){
+            //1.缓存next节点，避免修改链表指向时丢失
+            temp = cur.next;
+            //2.当前节点修改为反向指向(2->1)
+            cur.next = pre;
+            //3.前置节点修改为当前节点
+            pre = cur;
+            //4.当前节点更新为temp节点
+            cur = temp;
+
+            //3-4:pre和cur节点都前进一位
+        }
+        //当遍历到链表最后一个节点时，temp缓存的cur.next为null，所以cur为空，pre更新为cur节点，则pre作为链表反转后的头结点
+        return pre;
+    }
+
+
+    /**
+     * 206. 反转链表
+     * 递归解法
+     */
+    public ListNode reverseList3(ListNode head) {
+        //特殊情况处理
+        if(head == null) return null;
+        System.out.print("链表->递操作 ==>> ");
+        ListNode.print(head);
+        //递归的结束条件
+        if(head.next == null){
+            System.out.println("开始回溯-----------------------");
+            return head;
+        }
+        //递归不断深入，一直到链表的最后一个节点
+        //当达到最后一个节点时，return 返回当前节点
+        //递归的顺序是由上至下
+        //每一次cur返回都是 链表的末尾节点，递归中return的过程就是在给cur节点不断构建新的next，形成新的链表
+
+        ListNode cur = reverseList3(head.next);
+        System.out.print("链表->归操作 ==>> ");
+        ListNode.print(cur);
+        //(head.next)作为参数递归调用的入参
+        //head.next: 表示末尾节点
+        //head: 表示末尾倒数第2个节点
+
+        //return的顺序:由下至上
+        //1.更新末尾节点的next 指向 倒数第2个节点: head.next.next -> head; （反向链接）（5->4）
+        head.next.next = head;
+        //2.断开原来的链接（末尾倒数第2个节点.next -> 末尾节点 的 链接断开）  链表成环，断开原来的链接（5->4(新链接)  4->5(原来的链接，需要断开)）
+        head.next = null;
+        return cur;
+    }
+
+
+    /**
+     * 203. 移除链表元素
+     * 双指针（单独处理头结点）
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        //删除头节点(单独处理)
+        while(head != null && head.val == val){
+            head = head.next;
+        }
+        //头结点删除后为空，则返回
+        if(head == null){
+            return null;
+        }
+
+        //处理非头结点的其他节点
+        ListNode pre = head;
+        ListNode cur = head.next;
+        while(cur != null){
+            if(cur.val == val){
+                //修改指向（前置节点指向当前节点的next）
+                pre.next = cur.next;
+            } else {
+                //前置节点后移
+                pre = cur;
+            }
+            //遍历下一个节点
+            cur = cur.next;
+        }
+        return head;
+    }
+
+    /**
+     * 203. 移除链表元素
+     * 双指针（临时节点处理头结点）
+     */
+    public ListNode removeElements2(ListNode head, int val) {
+        //建立一个临时的头结点，它的next指向head（辅助删除头结点）
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+
+        //前置节点
+        ListNode pre = temp;
+        //当前节点
+        ListNode cur = head;
+
+        while(cur != null){
+            if(cur.val == val){
+                pre.next = cur.next;
+            } else {
+                pre = cur;
+            }
+            //遍历链表下一个节点
+            cur = cur.next;
+        }
+        //临时节点的next就是头结点的结果
+        return temp.next;
+    }
+
+
+    /**
+     * 203. 移除链表元素
+     * 递归解法
+     */
+    public ListNode removeElements3(ListNode head, int val) {
+        if(head == null){
+            return head;
+        }
+        head.next = removeElements3(head.next,val);
+        //例:head: 1->2->3->4->5 删除3
+        // 递操作: 从头节点开始递归调用removeElements函数，一直到head.next==null，则到达末尾节点，结束递操作
+        // 1 head = 1 head.next = 2
+        // 1->2 head = 2 head.next = 3
+        // 1->2->3 head = 3 head.next = 4
+        // 1->2->3->4 head = 4 head.next = 5
+        // 1->2->3->4->5 head = 5 head.next = null
+        // 归操作: 从末尾节点开始重新链接链表，组成新的链接关系
+        // 先观察head的变化:
+        // 5->null
+        // 4->5
+        // 3->4(return head.next)->5
+        // 2->4(removeElements的返回值为head.next)->5
+        // 1->2->4->5
+        // 再观察head.next 的变化:
+        // 5.next = ?? -> 4.next = ?? -> 3.next = ?? -> 2.next = ?? -> 1.next = ??)
+        // 5.next = removeElements(5.next,val) -> 5.next = null
+        // 4.next = removeElements(4.next,val) -> 4.next = 5
+        // 3.next = removeElements(3.next,val) -> 3.next = 4
+        // 2.next = removeElements(2.next,val) -> 2.next = 4
+        // 1.next = removeElements(1.next,val) -> 1.next = 2
+        // head: 1->2->4->5
+
+        //removeElements的返回值控制新的链表关系
+        //if(head.val == val) -> (如果当前节点值等于删除元素的值)，则removeElements的返回值为head.next(需要删除head的值),返回给递归上一层调用
+        //if(head.val != val) -> (如果当前节点值不等于删除元素的值)，则removeElements的返回值为head,返回给递归上一层调用
+        if(head.next != null) {
+            System.out.println("归:" + head.val + "->" + head.next.val);
+        }
+        //这里的return返回给递归函数的下一个调用（head.next = removeElements3(head.next,val)）
+        if(head.val == val){
+            //head为待删除元素，则返回head.next
+            return head.next;
+        } else {
+            return head;
+        }
+    }
+
+    /**
+     * 把普通数组转化为稀疏数组
+     * @param array
+     * @return
+     */
+    public int[][] toSparseArray(int[][] array){
+        if(array == null || array[0] == null) return null;
+
+
+        //1.先求非零元素的个数
+        int count = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                if(array[i][j] != 0){
+                    count++;
+                }
+            }
+        }
+        System.out.println("count:"+count);
+
+        // (n+1)行 3列的二维数组 初始化
+        // 总共有3列
+        // 第1行放总行数，总列数，总元素个数
+        // 第2行开始记录元素 元素行数，元素列数，元素的值
+
+        int[][] result = new int[count + 1][3];
+        //初始化第一行
+        result[0][0] = array.length;
+        result[0][1] = array[0].length;
+        result[0][2] = count;
+        //稀疏数组的行坐标
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[0].length; j++) {
+                if(array[i][j] != 0){
+                    index++;
+                    result[index][0] = i;
+                    result[index][1] = j;
+                    result[index][2] = array[i][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将稀疏数组转换为普通数组
+     * @param array
+     * @return
+     */
+    private int[][] toArray(int[][] array){
+        int[][] result = new int[array[0][0]][array[0][1]];
+        for (int i = 1; i < array.length; i++) {
+            result[array[i][0]][array[i][1]] = array[i][2];
+        }
+        return result;
+    }
+
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     * 双指针-快慢指针解法
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        //创建临时节点作为头结点
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+        //双指针-快慢指针
+        //快指针
+        ListNode fast = temp;
+        //慢指针（相当于当前节点）
+        ListNode slow = temp;
+
+        ////记录待删除节点slow的上一节点
+        ListNode pre = null;
+        //循环遍历快指针正数n个节点
+        while (n > 0 && fast != null){
+            fast = fast.next;
+            n--;
+        }
+        //当n大于链表的节点数时，无效输入，直接返回head
+        if(fast == null) return head;
+        //循环遍历快指针，慢指针，并且记录上一个节点
+        //当快指针遍历到末尾节点时，慢指针当前的位置就是倒数第N个节点
+        while (fast != null){
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next;
+        }
+        //删除当前节点的链接关系: 上一个节点next指向当前节点的next
+        pre.next = slow.next;
+        // 删除当前节点的下一个节点链接关系
+        slow.next = null;
+        //临时节点.next为新的head节点
+        return temp.next;
+    }
+
+
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     * 双指针-快慢指针解法
+     */
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        //创建临时节点作为头结点
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+
+        ListNode fast = temp;
+        ListNode slow = temp;
+        while(n > 0 && fast != null){
+            fast = fast.next;
+            n--;
+        }
+        //如果fast为空，则slow就无法遍历了，直接返回head
+        if(fast == null) return head;
+
+        //fast多走1位，让对应的slow少走1位，对应待删除元素的上一位
+        fast = fast.next;
+
+        while (fast != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        //slow的下一个节点更新为slow的下下个节点
+        slow.next = slow.next.next;
+        return temp.next;
+    }
+
+    //归的次数
+    private int count = 0;
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     * 递归解法
+     */
+    public ListNode removeNthFromEnd3(ListNode head, int n) {
+        //递归函数的结束条件：head节点(当前节点)为空
+        if(head == null) {
+            return null;
+        }
+        //链表递归（递操作）
+        head.next = removeNthFromEnd(head.next, n);
+        //head从尾节点开始（归操作）
+        //通过count计数，当count == n时，则表示head节点：倒数n个节点
+        if(++count == n){
+            return head.next;
+        } else {
+            return head;
+        }
+    }
+
 }

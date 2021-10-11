@@ -332,7 +332,7 @@ public class AlgorithmStudy {
 //            }
 //        });
 
-//        TimeTestUtils.testTask("链表中倒数第k个节点", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("链表中倒数第k个结点", new TimeTestUtils.Task() {
 //            @Override
 //            public void execute() {
 //                int[] nums = {1,2,3,4,5,6,7,8};
@@ -1714,7 +1714,7 @@ public class AlgorithmStudy {
                 // 寻找i+1为起始位置的子串是否包含回文串
                 backtrack3(value, i + 1, dp, path, result);
                 System.out.println("回退元素 => " + path.get(path.size() - 1));
-                //回溯状态重置（回到递归树的上一个节点继续遍历其他子节点）（remove尾部元素）
+                //回溯状态重置（回到递归树的上一个结点继续遍历其他子结点）（remove尾部元素）
                 path.removeLast();
                 System.out.println("递归之后 => " + path);
             }
@@ -2827,7 +2827,7 @@ public class AlgorithmStudy {
      * 回溯函数
      * 1.通过递归调用backtracking不断去构造每个路径缓存 path（一次递归过程只求得了一个满足条件的路径），在每个path满足条件后，存储结果到结果集。
      * 2.一次递归过程只求得了一个满足条件的路径，因为需要全排列（全部情况），则需要多次递归求多个路径。
-     * 3.每次递归结束后，通过path指针回溯撤销来控制下一个路径的根节点，开始下一次递归
+     * 3.每次递归结束后，通过path指针回溯撤销来控制下一个路径的根结点，开始下一次递归
      */
     public void backtrackingPermute(List<List<Integer>> result, LinkedList<Integer> path, int[] numbers) {
         //递归的结束条件
@@ -2881,11 +2881,11 @@ public class AlgorithmStudy {
         }
         //递归循环
         for (int i = startIndex; i < numbers.length; i++) {
-            //path节点操作
+            //path结点操作
             path.addLast(numbers[i]);
             //递归: 控制树的纵向遍历（向下）
             backtrackingCombine(result, numbers, path, k, (i + 1));
-            //节点回溯到上个位置
+            //结点回溯到上个位置
             path.removeLast();
         }
     }
@@ -2916,11 +2916,11 @@ public class AlgorithmStudy {
         //int maxEnd = (numbers.length - (k - path.size()) + 1); = 4 - 2 = 2
         //递归循环
         for (int i = startIndex; i < (numbers.length - (k - path.size()) + 1); i++) {
-            //path节点操作
+            //path结点操作
             path.addLast(numbers[i]);
             //递归: 控制树的纵向遍历（向下）
             backtrackingCombineOPT(result, numbers, path, k, (i + 1));
-            //节点回溯到上个位置
+            //结点回溯到上个位置
             path.removeLast();
         }
     }
@@ -2953,11 +2953,11 @@ public class AlgorithmStudy {
             return;
         }
         for (int i = startIndex; i < numbers.length; i++) {
-            //path节点操作
+            //path结点操作
             path.addLast(numbers[i]);
             //递归: 控制树的纵向遍历（向下）
             backtrackingCombine3(result, path, numbers, pathTargetSize, i + 1, n);
-            //节点回溯到上个位置
+            //结点回溯到上个位置
             path.removeLast();
         }
 
@@ -2980,7 +2980,7 @@ public class AlgorithmStudy {
         }
         //剪枝(numbers.length - (pathTargetSize - path.size()) + 1)
         for (int i = startIndex; i < (numbers.length - (pathTargetSize - path.size()) + 1); i++) {
-            //path节点操作
+            //path结点操作
             path.addLast(numbers[i]);
             //sum加操作
             sum = sum + numbers[i];
@@ -2988,7 +2988,7 @@ public class AlgorithmStudy {
             backtrackingCombine3OPT(result, path, numbers, pathTargetSize, i + 1, targetSum, sum);
             //sum回溯操作
             sum = sum - numbers[i];
-            //节点回溯到上个位置
+            //结点回溯到上个位置
             path.removeLast();
         }
     }
@@ -3070,12 +3070,12 @@ public class AlgorithmStudy {
         for (int i = startIndex; i < value.length(); i++) {
             //是否回文串
             if (isPalindromeStringDP(value, dp, startIndex, i) == 1) {
-                //节点操作（切割）
+                //结点操作（切割）
                 path.addLast(value.substring(startIndex, i + 1));
                 System.out.println("path-add:" + path + " startIndex:" + startIndex + " i:" + i);
                 //递归回调表示树的纵向遍历(startIndex代表分割线，startIndex = 0,startIndex = 1,startIndex = 2  当startIndex = value.size()说明分割线到了末尾，是递归结束条件)
                 backtrackingPartition(result, path, value, i + 1, dp);
-                //节点回溯
+                //结点回溯
                 path.removeLast();
             }
         }
@@ -3665,8 +3665,8 @@ public class AlgorithmStudy {
     }
 
     /**
-     * 剑指 Offer 22. 链表中倒数第k个节点
-     * 先求链表总长度，再通过遍历取倒数K个节点
+     * 剑指 Offer 22. 链表中倒数第k个结点
+     * 先求链表总长度，再通过遍历取倒数K个结点
      */
     public ListNode getKthFromEnd(ListNode head, int k) {
         int length = 0;
@@ -3676,10 +3676,10 @@ public class AlgorithmStudy {
             length ++;
             temp = temp.next;
         }
-        //因为链表最后一个节点的next为空，所以未计数最后一个节点的数量
+        //因为链表最后一个结点的next为空，所以未计数最后一个结点的数量
         //所以链表总长度 length = length + 1
         length = length + 1;
-        //再求对应位置的节点(倒数第k个节点:从头遍历的第(length - k)个节点
+        //再求对应位置的结点(倒数第k个结点:从头遍历的第(length - k)个结点
         temp = head;
         for (int i = 1; i <= length - k; i++) {
             temp = temp.next;
@@ -3689,7 +3689,7 @@ public class AlgorithmStudy {
     }
 
     /**
-     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 剑指 Offer 22. 链表中倒数第k个结点
      * 通过双指针-快慢指针
      */
     public ListNode getKthFromEnd2(ListNode head, int k) {
@@ -3697,7 +3697,7 @@ public class AlgorithmStudy {
         ListNode slow = head;
         ListNode fast = head;
 
-        //1.先找到正数的第k个节点 ==>> fast指针指向该节点
+        //1.先找到正数的第k个结点 ==>> fast指针指向该结点
         //i初始化为1: fast最开始已经指向第1位,
         for (int i = 1; i < k; i++) {
             fast = fast.next;
@@ -3708,12 +3708,12 @@ public class AlgorithmStudy {
             fast = fast.next;
             System.out.println("slow移动到: " + slow.val + " fast移动到: "+ fast.val);
         }
-        //此时slow指针指向的是 倒数第k个节点
+        //此时slow指针指向的是 倒数第k个结点
         return slow;
     }
 
     /**
-     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 剑指 Offer 22. 链表中倒数第k个结点
      * 通过转换list顺序存储，下标获取
      */
     public ListNode getKthFromEnd3(ListNode head, int k) {
@@ -3727,7 +3727,7 @@ public class AlgorithmStudy {
     }
 
     /**
-     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 剑指 Offer 22. 链表中倒数第k个结点
      * 双指针-快慢指针-一个for循环
      */
     public ListNode getKthFromEnd4(ListNode head, int k) {
@@ -3752,7 +3752,7 @@ public class AlgorithmStudy {
     }
 
     /**
-     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 剑指 Offer 22. 链表中倒数第k个结点
      * 递归思想
      */
     //size记录递归返回的次数
@@ -3764,15 +3764,15 @@ public class AlgorithmStudy {
             return null;
         }
         ListNode node = getKthFromEnd5(head.next,k);
-        //已经找到节点，结束剩余递归每层的函数
+        //已经找到结点，结束剩余递归每层的函数
         if(flag) return node;
 
-        //递归到最后一个链表节点时，触底反弹，返回上一层递归函数
+        //递归到最后一个链表结点时，触底反弹，返回上一层递归函数
         //每返回上一层，都计数一次
         size++;
         //当返回第k次递归栈时
         if(size == k){
-            //找到目标节点并设置标识，优化不同递归层级函数调用多余逻辑
+            //找到目标结点并设置标识，优化不同递归层级函数调用多余逻辑
             flag = true;
             return head;
         }
@@ -3790,17 +3790,17 @@ public class AlgorithmStudy {
             list.add(head.val);
             head = head.next;
         }
-        // 生成链表的根节点(头结点) ==>> root.data = array[0]
+        // 生成链表的根结点(头结点) ==>> root.data = array[0]
         ListNode root = new ListNode(list.get(list.size() - 1));
-        //pre(前一个节点)为根节点(临时节点)
+        //pre(前一个结点)为根结点(临时结点)
         ListNode pre = root;
 
-        //创建新链表时：前置节点pre初始化为头结点，pre不断更新，并且更新pre.next，
+        //创建新链表时：前置结点pre初始化为头结点，pre不断更新，并且更新pre.next，
         for (int i = list.size() - 2; i >= 0; i--) {
-            //创建当前节点
+            //创建当前结点
             ListNode node = new ListNode(list.get(i));
             pre.next = node;
-            //更新前置节点
+            //更新前置结点
             pre = node;
         }
         return root;
@@ -3814,28 +3814,28 @@ public class AlgorithmStudy {
         if(head == null){
             return null;
         }
-        //记录前置节点(初始化: 头结点的前置节点为空)
+        //记录前置结点(初始化: 头结点的前置结点为空)
         ListNode pre = null;
-        //记录当前节点(初始化: 头结点)
+        //记录当前结点(初始化: 头结点)
         ListNode cur  = head;
-        //在指针引用更改时，会丢失原cur.next节点的引用，需要用临时指针temp记录一下
+        //在指针引用更改时，会丢失原cur.next结点的引用，需要用临时指针temp记录一下
         ListNode temp;
 
         //遍历过程中，cur不断更新，并且修改cur.next
         //当cur为空时，遍历结束
         while (cur != null){
-            //1.缓存next节点，避免修改链表指向时丢失
+            //1.缓存next结点，避免修改链表指向时丢失
             temp = cur.next;
-            //2.当前节点修改为反向指向(2->1)
+            //2.当前结点修改为反向指向(2->1)
             cur.next = pre;
-            //3.前置节点修改为当前节点
+            //3.前置结点修改为当前结点
             pre = cur;
-            //4.当前节点更新为temp节点
+            //4.当前结点更新为temp结点
             cur = temp;
 
-            //3-4:pre和cur节点都前进一位
+            //3-4:pre和cur结点都前进一位
         }
-        //当遍历到链表最后一个节点时，temp缓存的cur.next为null，所以cur为空，pre更新为cur节点，则pre作为链表反转后的头结点
+        //当遍历到链表最后一个结点时，temp缓存的cur.next为null，所以cur为空，pre更新为cur结点，则pre作为链表反转后的头结点
         return pre;
     }
 
@@ -3854,22 +3854,22 @@ public class AlgorithmStudy {
             System.out.println("开始回溯-----------------------");
             return head;
         }
-        //递归不断深入，一直到链表的最后一个节点
-        //当达到最后一个节点时，return 返回当前节点
+        //递归不断深入，一直到链表的最后一个结点
+        //当达到最后一个结点时，return 返回当前结点
         //递归的顺序是由上至下
-        //每一次cur返回都是 链表的末尾节点，递归中return的过程就是在给cur节点不断构建新的next，形成新的链表
+        //每一次cur返回都是 链表的末尾结点，递归中return的过程就是在给cur结点不断构建新的next，形成新的链表
 
         ListNode cur = reverseList3(head.next);
         System.out.print("链表->归操作 ==>> ");
         ListNode.print(cur);
         //(head.next)作为参数递归调用的入参
-        //head.next: 表示末尾节点
-        //head: 表示末尾倒数第2个节点
+        //head.next: 表示末尾结点
+        //head: 表示末尾倒数第2个结点
 
         //return的顺序:由下至上
-        //1.更新末尾节点的next 指向 倒数第2个节点: head.next.next -> head; （反向链接）（5->4）
+        //1.更新末尾结点的next 指向 倒数第2个结点: head.next.next -> head; （反向链接）（5->4）
         head.next.next = head;
-        //2.断开原来的链接（末尾倒数第2个节点.next -> 末尾节点 的 链接断开）  链表成环，断开原来的链接（5->4(新链接)  4->5(原来的链接，需要断开)）
+        //2.断开原来的链接（末尾倒数第2个结点.next -> 末尾结点 的 链接断开）  链表成环，断开原来的链接（5->4(新链接)  4->5(原来的链接，需要断开)）
         head.next = null;
         return cur;
     }
@@ -3880,7 +3880,7 @@ public class AlgorithmStudy {
      * 双指针（单独处理头结点）
      */
     public ListNode removeElements(ListNode head, int val) {
-        //删除头节点(单独处理)
+        //删除头结点(单独处理)
         while(head != null && head.val == val){
             head = head.next;
         }
@@ -3889,18 +3889,18 @@ public class AlgorithmStudy {
             return null;
         }
 
-        //处理非头结点的其他节点
+        //处理非头结点的其他结点
         ListNode pre = head;
         ListNode cur = head.next;
         while(cur != null){
             if(cur.val == val){
-                //修改指向（前置节点指向当前节点的next）
+                //修改指向（前置结点指向当前结点的next）
                 pre.next = cur.next;
             } else {
-                //前置节点后移
+                //前置结点后移
                 pre = cur;
             }
-            //遍历下一个节点
+            //遍历下一个结点
             cur = cur.next;
         }
         return head;
@@ -3908,7 +3908,7 @@ public class AlgorithmStudy {
 
     /**
      * 203. 移除链表元素
-     * 双指针（临时节点处理头结点）
+     * 双指针（临时结点处理头结点）
      */
     public ListNode removeElements2(ListNode head, int val) {
         //建立一个临时的头结点，它的next指向head（辅助删除头结点）
@@ -3916,9 +3916,9 @@ public class AlgorithmStudy {
         temp.val = -1;
         temp.next = head;
 
-        //前置节点
+        //前置结点
         ListNode pre = temp;
-        //当前节点
+        //当前结点
         ListNode cur = head;
 
         while(cur != null){
@@ -3927,10 +3927,10 @@ public class AlgorithmStudy {
             } else {
                 pre = cur;
             }
-            //遍历链表下一个节点
+            //遍历链表下一个结点
             cur = cur.next;
         }
-        //临时节点的next就是头结点的结果
+        //临时结点的next就是头结点的结果
         return temp.next;
     }
 
@@ -3945,13 +3945,13 @@ public class AlgorithmStudy {
         }
         head.next = removeElements3(head.next,val);
         //例:head: 1->2->3->4->5 删除3
-        // 递操作: 从头节点开始递归调用removeElements函数，一直到head.next==null，则到达末尾节点，结束递操作
+        // 递操作: 从头结点开始递归调用removeElements函数，一直到head.next==null，则到达末尾结点，结束递操作
         // 1 head = 1 head.next = 2
         // 1->2 head = 2 head.next = 3
         // 1->2->3 head = 3 head.next = 4
         // 1->2->3->4 head = 4 head.next = 5
         // 1->2->3->4->5 head = 5 head.next = null
-        // 归操作: 从末尾节点开始重新链接链表，组成新的链接关系
+        // 归操作: 从末尾结点开始重新链接链表，组成新的链接关系
         // 先观察head的变化:
         // 5->null
         // 4->5
@@ -3968,8 +3968,8 @@ public class AlgorithmStudy {
         // head: 1->2->4->5
 
         //removeElements的返回值控制新的链表关系
-        //if(head.val == val) -> (如果当前节点值等于删除元素的值)，则removeElements的返回值为head.next(需要删除head的值),返回给递归上一层调用
-        //if(head.val != val) -> (如果当前节点值不等于删除元素的值)，则removeElements的返回值为head,返回给递归上一层调用
+        //if(head.val == val) -> (如果当前结点值等于删除元素的值)，则removeElements的返回值为head.next(需要删除head的值),返回给递归上一层调用
+        //if(head.val != val) -> (如果当前结点值不等于删除元素的值)，则removeElements的返回值为head,返回给递归上一层调用
         if(head.next != null) {
             System.out.println("归:" + head.val + "->" + head.next.val);
         }
@@ -4045,37 +4045,37 @@ public class AlgorithmStudy {
      * 双指针-快慢指针解法
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        //创建临时节点作为头结点
+        //创建临时结点作为头结点
         ListNode temp = new ListNode();
         temp.val = -1;
         temp.next = head;
         //双指针-快慢指针
         //快指针
         ListNode fast = temp;
-        //慢指针（相当于当前节点）
+        //慢指针（相当于当前结点）
         ListNode slow = temp;
 
-        ////记录待删除节点slow的上一节点
+        ////记录待删除结点slow的上一结点
         ListNode pre = null;
-        //循环遍历快指针正数n个节点
+        //循环遍历快指针正数n个结点
         while (n > 0 && fast != null){
             fast = fast.next;
             n--;
         }
-        //当n大于链表的节点数时，无效输入，直接返回head
+        //当n大于链表的结点数时，无效输入，直接返回head
         if(fast == null) return head;
-        //循环遍历快指针，慢指针，并且记录上一个节点
-        //当快指针遍历到末尾节点时，慢指针当前的位置就是倒数第N个节点
+        //循环遍历快指针，慢指针，并且记录上一个结点
+        //当快指针遍历到末尾结点时，慢指针当前的位置就是倒数第N个结点
         while (fast != null){
             pre = slow;
             slow = slow.next;
             fast = fast.next;
         }
-        //删除当前节点的链接关系: 上一个节点next指向当前节点的next
+        //删除当前结点的链接关系: 上一个结点next指向当前结点的next
         pre.next = slow.next;
-        // 删除当前节点的下一个节点链接关系
+        // 删除当前结点的下一个结点链接关系
         slow.next = null;
-        //临时节点.next为新的head节点
+        //临时结点.next为新的head结点
         return temp.next;
     }
 
@@ -4085,7 +4085,7 @@ public class AlgorithmStudy {
      * 双指针-快慢指针解法
      */
     public ListNode removeNthFromEnd2(ListNode head, int n) {
-        //创建临时节点作为头结点
+        //创建临时结点作为头结点
         ListNode temp = new ListNode();
         temp.val = -1;
         temp.next = head;
@@ -4106,7 +4106,7 @@ public class AlgorithmStudy {
             fast = fast.next;
             slow = slow.next;
         }
-        //slow的下一个节点更新为slow的下下个节点
+        //slow的下一个结点更新为slow的下下个结点
         slow.next = slow.next.next;
         return temp.next;
     }
@@ -4118,14 +4118,14 @@ public class AlgorithmStudy {
      * 递归解法
      */
     public ListNode removeNthFromEnd3(ListNode head, int n) {
-        //递归函数的结束条件：head节点(当前节点)为空
+        //递归函数的结束条件：head结点(当前结点)为空
         if(head == null) {
             return null;
         }
         //链表递归（递操作）
         head.next = removeNthFromEnd(head.next, n);
-        //head从尾节点开始（归操作）
-        //通过count计数，当count == n时，则表示head节点：倒数n个节点
+        //head从尾结点开始（归操作）
+        //通过count计数，当count == n时，则表示head结点：倒数n个结点
         if(++count == n){
             return head.next;
         } else {

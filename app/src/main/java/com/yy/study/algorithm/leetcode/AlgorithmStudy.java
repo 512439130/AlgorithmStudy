@@ -336,7 +336,7 @@ public class AlgorithmStudy {
 //            @Override
 //            public void execute() {
 //                int[] nums = {1,2,3,4,5,6,7,8};
-//                ListNode listNode = ListNode.listToListNode(nums);
+//                ListNode listNode = ListNode.arrayToListNode(nums);
 //                int k = 3;
 ////                ListNode result = algorithmStudy.getKthFromEnd(listNode,k);
 ////                System.out.println("result1:" + result + " result: "+result.val);
@@ -344,8 +344,8 @@ public class AlgorithmStudy {
 ////                System.out.println("result2:" + result2 + " result2: "+result2.val);
 ////                ListNode result3 = algorithmStudy.getKthFromEnd3(listNode, k);
 ////                System.out.println("result2:" + result3 + " result2: "+result2.val);
-//                ListNode result4 = algorithmStudy.getKthFromEnd4(listNode, k);
-//                System.out.println("result4:" + result4 + " result4: "+result4.val);
+////                ListNode result4 = algorithmStudy.getKthFromEnd4(listNode, k);
+////                System.out.println("result4:" + result4 + " result4: "+result4.val);
 //                ListNode result5 = algorithmStudy.getKthFromEnd5(listNode, k);
 //                System.out.println("result5:" + result5 + " result5: " + result5.val);
 //            }
@@ -356,7 +356,7 @@ public class AlgorithmStudy {
 //            @Override
 //            public void execute() {
 //                int[] nums = {1,2,3,4,5};
-//                ListNode listNode = ListNode.listToListNode(nums);
+//                ListNode listNode = ListNode.arrayToListNode(nums);
 ////                ListNode result1 = algorithmStudy.reverseList(listNode);
 ////                ListNode result2 = algorithmStudy.reverseList2(listNode);
 //                ListNode result3 = algorithmStudy.reverseList3(listNode);
@@ -373,7 +373,7 @@ public class AlgorithmStudy {
 //            public void execute() {
 //                int[] nums = {1,5,3,6,5,4,8,5};
 //                int val = 5;
-//                ListNode listNode = ListNode.listToListNode(nums);
+//                ListNode listNode = ListNode.arrayToListNode(nums);
 //                System.out.print("old: ");
 //                ListNode.print(listNode);
 //                ListNode result1 = algorithmStudy.removeElements3(listNode,val);
@@ -418,17 +418,46 @@ public class AlgorithmStudy {
 //            }
 //        });
 
-        TimeTestUtils.testTask("删除链表的倒数第 N 个结点", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("删除链表的倒数第 N 个结点", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,5,6,7,8};
+//                ListNode head = ListNode.arrayToListNode(nums);
+//                int n = 2;
+//                System.out.print("head: ");
+//                ListNode.print(head);
+//                ListNode result = algorithmStudy.removeNthFromEnd3(head,n);
+//                System.out.print("result: ");
+//                ListNode.print(result);
+//            }
+//        });
+//        TimeTestUtils.testTask("环形链表", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {3,2,0,-4,5};
+//                ListNode node = ListNode.arrayToListNode(nums);
+//                ListNode.toCircle(node,2);
+//                System.out.println("result: " + algorithmStudy.hasCycle2(node));
+//            }
+//        });
+
+//        TimeTestUtils.testTask("环形链表2", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,5,6,7,8,9,10};
+//                ListNode node = ListNode.arrayToListNode(nums);
+//                ListNode.toCircle(node,8);
+//                algorithmStudy.detectCycle2(node);
+//            }
+//        });
+        TimeTestUtils.testTask("链表相交", new TimeTestUtils.Task() {
             @Override
             public void execute() {
-                int[] nums = {1,2,3,4,5,6,7,8};
-                ListNode head = ListNode.listToListNode(nums);
-                int n = 2;
-                System.out.print("head: ");
-                ListNode.print(head);
-                ListNode result = algorithmStudy.removeNthFromEnd3(head,n);
-                System.out.print("result: ");
-                ListNode.print(result);
+                int[] numsA = {4,1,8,4,5};
+                int[] numsB = {5,0,1,8,4,5};
+                ListNode nodeA = ListNode.arrayToListNode(numsA);
+                ListNode nodeB = ListNode.arrayToListNode(numsB);
+                System.out.println("result:" + algorithmStudy.getIntersectionNode(nodeA,nodeB));
             }
         });
     }
@@ -3871,6 +3900,7 @@ public class AlgorithmStudy {
         head.next.next = head;
         //2.断开原来的链接（末尾倒数第2个结点.next -> 末尾结点 的 链接断开）  链表成环，断开原来的链接（5->4(新链接)  4->5(原来的链接，需要断开)）
         head.next = null;
+        //更新head的链接关系后，同步更新cur
         return cur;
     }
 
@@ -3937,7 +3967,7 @@ public class AlgorithmStudy {
 
     /**
      * 203. 移除链表元素
-     * 递归解法
+     * 递归解法(反向链接操作)
      */
     public ListNode removeElements3(ListNode head, int val) {
         if(head == null){
@@ -3955,8 +3985,8 @@ public class AlgorithmStudy {
         // 先观察head的变化:
         // 5->null
         // 4->5
-        // 3->4(return head.next)->5
-        // 2->4(removeElements的返回值为head.next)->5
+        // 3->4->5(return head.next)->5
+        // 2->4->5(removeElements的返回值为head.next)->5
         // 1->2->4->5
         // 再观察head.next 的变化:
         // 5.next = ?? -> 4.next = ?? -> 3.next = ?? -> 2.next = ?? -> 1.next = ??)
@@ -3974,6 +4004,7 @@ public class AlgorithmStudy {
             System.out.println("归:" + head.val + "->" + head.next.val);
         }
         //这里的return返回给递归函数的下一个调用（head.next = removeElements3(head.next,val)）
+        //递归回溯过程中，不断return操作，上一层函数通过head.next = return ? 更新结点中链表关系，如果需要删除，则return当前节点的next ==>> head.next = return(head.next.next)
         if(head.val == val){
             //head为待删除元素，则返回head.next
             return head.next;
@@ -4133,4 +4164,256 @@ public class AlgorithmStudy {
         }
     }
 
+    /**
+     * 141. 环形链表
+     * 哈希表解法
+     */
+    public boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null) return false;
+        HashSet<ListNode> set = new HashSet<>();
+        while (true){
+            if(set.contains(head)){
+                return true;
+            }
+            if(head.next == null){
+                return false;
+            }
+            set.add(head);
+            head = head.next;
+        }
+    }
+
+    /**
+     * 141. 环形链表
+     * 双指针-快慢指针
+     */
+    public boolean hasCycle2(ListNode head) {
+        if(head == null || head.next == null) return false;
+        //双指针-快慢指针
+        ListNode slow = head;
+        ListNode fast = head;
+        while(true){
+            //无环，fast指针先走到链表的尾部
+            if(fast == null || fast.next == null) return false;
+            slow = slow.next;
+            fast = fast.next.next;
+            //有环
+            if(slow == fast) return true;
+        }
+    }
+
+    /**
+     * 142. 环形链表 II
+     * 哈希表
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null) return null;
+        ListNode pos = head;
+        HashSet<ListNode> set = new HashSet<>();
+
+        while (true) {
+            if(pos == null) return null;
+            if (set.contains(pos)) {
+                System.out.println("环的入口结点:" + pos.val);
+                return pos;
+            }
+            set.add(pos);
+            pos = pos.next;
+        }
+    }
+
+    /**
+     * 142. 环形链表 II
+     * 双指针-快慢指针
+     */
+    public ListNode detectCycle2(ListNode head) {
+        if (head == null || head.next == null) return null;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (true) {
+            //没有环时，fast指针先走到链表尾部
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+            //快慢指针第一次相遇
+            if (slow == fast) break;
+        }
+
+        //第一次相遇后，让fast重新指向头结点head，slow保持不变，fast和slow按照相同速度移动，第二次相遇后，此结点即为入口结点
+        //环长度已知，相遇点再次走到环入口结点步数 = 环的长度 - 入口结点走到相遇结点的长度
+        fast = head;
+        while (true) {
+            if (slow == fast){
+                System.out.println("环的入口结点:" + slow.val);
+                return slow;
+            }
+            slow = slow.next;
+            fast = fast.next;
+        }
+    }
+
+
+    /**
+     * 环形链表 II 求环的长度
+     * 方法一：记录环形链表入口位置，遍历环形链表的直到再次相遇入口
+     */
+    public ListNode detectCycleLength(ListNode head) {
+        if (head == null || head.next == null) return null;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (true) {
+            //没有环时，fast指针先走到链表尾部
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+            //快慢指针第一次相遇
+            if (slow == fast) break;
+        }
+
+        //第一次相遇后，让fast重新指向头结点head，slow保持不变，fast和slow按照相同速度移动，第二次相遇后，此结点即为入口结点
+        //环长度已知，相遇点再次走到环入口结点步数 = 环的长度 - 入口结点走到相遇结点的长度
+        fast = head;
+        while (true) {
+            slow = slow.next;
+            fast = fast.next;
+            if (slow == fast) break;
+        }
+
+        //求环的长度（方法1）
+        ListNode entranceCircleNode = slow;
+        int length = 0;
+        while (true){
+            if(slow == null){
+                return null;
+            }
+            slow = slow.next;
+            length++;
+            if(slow == entranceCircleNode){
+                System.out.println("环的入口结点:" + slow.val);
+                System.out.println("环的长度:" + length);
+                break;
+            }
+        }
+
+        //求环的长度（方法2）
+        return entranceCircleNode;
+    }
+
+    /**
+     * 环形链表 II 求环的长度
+     * 方法二：通过快慢指针遍历2次相遇求长度
+     */
+    public ListNode detectCycleLength2(ListNode head) {
+        if (head == null || head.next == null) return null;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        //求环的长度 通过2次相遇所需步数相减而得（方法2）
+        //快慢第一次相遇所需要的步数
+        int firstLength = 0;
+        //快慢指针第二次相遇所需要的步数
+        int secondLength = 0;
+        int length = 0;
+        while (true) {
+            //没有环时，fast指针先走到链表尾部
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+            length++;
+            //快慢指针第一次相遇
+            if (slow == fast) {
+                if(firstLength == 0){
+                    firstLength = length;
+                } else {
+                    secondLength = length;
+                    break;
+                }
+            }
+        }
+        System.out.println("环的长度:" + (secondLength - firstLength));
+        return slow;
+    }
+
+
+    /**
+     * 面试题 02.07. 链表相交
+     * 哈希表解法
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        //哈希表解法
+        ListNode node = headA;
+        Set<ListNode> set = new HashSet<>();
+        while(node != null){
+            set.add(node);
+            node = node.next;
+        }
+        node = headB;
+        while(node != null){
+            if(set.contains(node)){
+                return node;
+            }
+            node = node.next;
+        }
+        return null;
+    }
+
+    /**
+     * 面试题 02.07. 链表相交
+     * 双指针解法
+     */
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+        ListNode nodeA = headA;
+        ListNode nodeB = headB;
+        int lengthA = 0;
+        int lengthB = 0;
+        //求2个链表的长度
+        while(nodeA != null){
+            lengthA++;
+            nodeA = nodeA.next;
+        }
+        while(nodeB != null){
+            lengthB++;
+            nodeB = nodeB.next;
+        }
+        //重置指针
+        nodeA = headA;
+        nodeB = headB;
+        //控制nodeA为最长的链表
+        if(lengthB > lengthA){
+            //长度交换
+            int lengthTemp = lengthA;
+            lengthA = lengthB;
+            lengthB = lengthTemp;
+            //链表交换
+            ListNode nodeTemp = nodeA;
+            nodeA = nodeB;
+            nodeB = nodeTemp;
+        }
+
+        //计算长度差值
+        int gap = lengthA - lengthB;
+        while (gap > 0){
+            nodeA = nodeA.next;
+            gap--;
+        }
+
+        // nodeA 和 nodeB，遇到相同则直接返回
+        while(nodeA != null && nodeB != null){
+            if(nodeA == nodeB) return nodeA;
+            nodeA = nodeA.next;
+            nodeB = nodeB.next;
+        }
+        return null;
+    }
 }

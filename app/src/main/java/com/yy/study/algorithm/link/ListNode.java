@@ -25,12 +25,29 @@ public class ListNode {
                 '}';
     }
 
+    public static void main(String[] args) {
+        int[] array = {1,3,2,5,4};
+        ListNode listNode = arrayToListNode(array);
+        System.out.println(listNode);
+    }
+
+    public static void print(ListNode head){
+        while (head != null){
+            System.out.print(head.val);
+            if(head.next != null){
+                System.out.print("->");
+            }
+            head = head.next;
+        }
+        System.out.println("\t");
+    }
+
     /**
      * 数组转链表
      * @param array
      * @return
      */
-    public static ListNode listToListNode(int[] array){
+    public static ListNode arrayToListNode(int[] array){
         if(array == null || array.length == 0) return null;
         //生成链表的根结点(头结点) ==>> root.data = array[0]
         ListNode root = new ListNode(array[0]);
@@ -49,21 +66,31 @@ public class ListNode {
         return root;
     }
 
-    public static void main(String[] args) {
-        int[] array = {1,3,2,5,4};
-        ListNode listNode = listToListNode(array);
-        System.out.println(listNode);
-    }
+    /**
+     * 链表添加一个环
+     * @param node node
+     * @param pos pos代表尾结点指向链表中某个结点的的索引位置（环的入口）
+     */
+    public static void toCircle(ListNode node, int pos){
+        //遍历 通过pos找到 入口对应的节点 记录下来
+        //遍历到尾结点时，设置为其next引用
 
-    public static void print(ListNode head){
-        while (head != null){
-            System.out.print(head.val);
-            if(head.next != null){
-                System.out.print("->");
+        //记录遍历的位置
+        int dfsPosition = 0;
+        ListNode circleNode = null;
+        while (true){
+            if(dfsPosition == pos){
+                //根据pos记录环的入口结点
+                circleNode = node;
             }
-            head = head.next;
+            if(node.next == null){
+                //末尾结点next连接环的入口结点：成环
+                node.next = circleNode;
+                return;
+            }
+            node = node.next;
+            dfsPosition++;
         }
-        System.out.println("\t");
     }
 
 

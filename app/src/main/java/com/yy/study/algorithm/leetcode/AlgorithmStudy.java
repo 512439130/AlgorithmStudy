@@ -1,9 +1,8 @@
 package com.yy.study.algorithm.leetcode;
 
-import com.yy.study.algorithm.link.ListNode;
+import com.yy.study.algorithm.structure.link.ListNode;
+import com.yy.study.algorithm.structure.queue.MaxQueue;
 import com.yy.study.util.TimeTestUtils;
-
-import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +13,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -450,14 +450,42 @@ public class AlgorithmStudy {
 //                algorithmStudy.detectCycle2(node);
 //            }
 //        });
-        TimeTestUtils.testTask("链表相交", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("链表相交", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] numsA = {4,1,8,4,5};
+//                int[] numsB = {5,0,1,8,4,5};
+//                ListNode nodeA = ListNode.arrayToListNode(numsA);
+//                ListNode nodeB = ListNode.arrayToListNode(numsB);
+//                System.out.println("result:" + algorithmStudy.getIntersectionNode(nodeA,nodeB));
+//            }
+//        });
+//        TimeTestUtils.testTask("两两交换链表中的节点", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,6};
+//                ListNode node = ListNode.arrayToListNode(nums);
+//                System.out.println("result:" + algorithmStudy.swapPairsStack(node));
+//            }
+//        });
+
+
+        TimeTestUtils.testTask("队列的最大值", new TimeTestUtils.Task() {
             @Override
             public void execute() {
-                int[] numsA = {4,1,8,4,5};
-                int[] numsB = {5,0,1,8,4,5};
-                ListNode nodeA = ListNode.arrayToListNode(numsA);
-                ListNode nodeB = ListNode.arrayToListNode(numsB);
-                System.out.println("result:" + algorithmStudy.getIntersectionNode(nodeA,nodeB));
+                int[] nums = {1,2,3,4,6};
+                MaxQueue maxQueue = new MaxQueue();
+                maxQueue.push_back(1);
+                maxQueue.push_back(5);
+                maxQueue.push_back(4);
+                System.out.println("result1:" + maxQueue.toString());
+                System.out.println("result1:" + maxQueue.max_value());
+                maxQueue.push_back(7);
+                maxQueue.push_back(22);
+                maxQueue.push_back(6);
+                maxQueue.push_back(6);
+                System.out.println("result1:" + maxQueue.toString());
+                System.out.println("result1:" + maxQueue.max_value());
             }
         });
     }
@@ -4415,5 +4443,148 @@ public class AlgorithmStudy {
             nodeB = nodeB.next;
         }
         return null;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 虚拟头结点，双指针解法
+     */
+    public ListNode swapPairs(ListNode head) {
+        //临时头结点
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+
+        //前一个结点
+        ListNode pre = temp;
+        //当前结点
+        ListNode cur = head;
+
+        while (pre != null && cur != null && cur.next != null) {
+            //链表首结点
+            ListNode first = pre.next;
+            //链表第二个结点
+            ListNode second = cur.next;
+            //链表第三个结点 交换前两个结点前，先记录第二个结点的next指向的结点
+            ListNode third = cur.next.next;
+
+            //前一个结点next指向第二个结点
+            pre.next = second;
+            //第二个结点next指向第一个结点
+            second.next = first;
+            //第一个结点next指向之前记录的第三个结点
+            first.next = third;
+
+            //pre,cur向前移动2个位置
+            if (pre.next != null && pre.next.next != null) {
+                pre = pre.next.next;
+                cur = pre.next;
+            } else {
+                pre = null;
+                cur = null;
+            }
+        }
+        return temp.next;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 虚拟头结点，迭代解法
+     */
+    public ListNode swapPairs2(ListNode head) {
+        //临时头结点
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+
+        //前一个结点
+        ListNode pre = temp;
+        while (pre.next != null && pre.next.next != null) {
+            //链表首结点
+            ListNode first = pre.next;
+            //链表第二个结点
+            ListNode second = pre.next.next;
+
+//          1.temp->first->second
+//          2.temp->second->first
+            //前一个结点next指向第二个结点
+            pre.next = second;
+            //第一个结点next指向之前记录的第三个结点
+            first.next = second.next;
+            //第二个结点next指向第一个结点
+            second.next = first;
+
+            //pre向后移动2个位置
+            pre = pre.next.next; // pre.next.next == first
+        }
+        return temp.next;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 递归解法
+     */
+    public ListNode swapPairsDfs(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        //head表示原始链表的头结点，也表示新链表的第二个结点
+        //newHead表示新链表的头结点，也表示原始链表的第二个结点
+
+        //假设原始链表是 1->2->3->4 先记录当前head的next结点
+        //  nex = 4
+        ListNode nex = head.next;
+        // 3.next = null
+        head.next = swapPairsDfs(nex.next);
+        // 4.next = 3
+        nex.next = head;
+        return nex;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 栈解法
+     */
+    public ListNode swapPairsStack(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        //临时头结点
+        ListNode temp = new ListNode();
+        temp.val = -1;
+        temp.next = head;
+
+        //用stack保存每次迭代的两个节点，运用栈的先进后出原则
+        Stack<ListNode> stack = new Stack<>();
+
+        //前一个结点
+        ListNode pre = temp;
+        ListNode cur = head;
+
+        while (cur != null && cur.next != null) {
+            //将两个节点放入stack中
+            stack.add(cur);
+            stack.add(cur.next);
+            //当前节点往前走两步
+            cur = cur.next.next;
+
+            //2次出栈操作，pre结点指向栈取出的节点，改变链表的链接关系
+            //更新pre.next指向
+            pre.next = stack.pop();
+            //更新pre位置
+            pre = pre.next;
+            //更新pre.next指向
+            pre.next = stack.pop();
+            //更新pre位置
+            pre = pre.next;
+            //完成一次交换
+        }
+
+        //更新pre.next
+        //当链表长度为奇数时，cur = 末尾结点
+        //当链表长度为偶数时，cur = null
+        //更新pre.next = cur
+        pre.next = cur;
+        return temp.next;
     }
 }

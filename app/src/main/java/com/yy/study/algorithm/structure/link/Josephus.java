@@ -1,6 +1,4 @@
-package com.yy.study.algorithm.link;
-
-import java.util.List;
+package com.yy.study.algorithm.structure.link;
 
 /**
  * 约瑟夫环问题

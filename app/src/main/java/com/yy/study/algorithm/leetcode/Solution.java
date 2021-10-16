@@ -1,4 +1,4 @@
-package com.yy.study.algorithm.other;
+package com.yy.study.algorithm.leetcode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

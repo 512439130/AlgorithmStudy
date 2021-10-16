@@ -1,4 +1,4 @@
-package com.yy.study.algorithm.link;
+package com.yy.study.algorithm.structure.link;
 
 /**
  * 单链表

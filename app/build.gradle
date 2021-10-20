@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
 }
+//引入自定义插件，插件名与前面的*.properties文件的文件名是一致的
+apply plugin: 'com.yy.plugin'
 
 android {
     compileSdkVersion 30

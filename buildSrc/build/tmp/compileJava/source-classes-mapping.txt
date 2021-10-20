@@ -1,0 +1,2 @@
+com/yy/plugin/GradlePluginTest.java
+ com.yy.plugin.GradlePluginTest

@@ -1,0 +1,9 @@
+apply plugin: 'java-library'
+
+sourceSets {
+    main{
+        java{
+            srcDir 'src/main/java'
+        }
+    }
+}

@@ -1,9 +1,13 @@
 package com.yy.study.algorithm.leetcode;
 
 import com.yy.study.algorithm.structure.link.ListNode;
+import com.yy.study.algorithm.structure.queue.ArrayCircularQueue;
+import com.yy.study.algorithm.structure.queue.LinkedCircularQueue;
 import com.yy.study.algorithm.structure.queue.MaxQueue;
 import com.yy.study.util.TimeTestUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -450,6 +454,7 @@ public class AlgorithmStudy {
 //                algorithmStudy.detectCycle2(node);
 //            }
 //        });
+
 //        TimeTestUtils.testTask("链表相交", new TimeTestUtils.Task() {
 //            @Override
 //            public void execute() {
@@ -469,23 +474,60 @@ public class AlgorithmStudy {
 //            }
 //        });
 
+//        TimeTestUtils.testTask("队列的最大值", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,2,3,4,6};
+//                MaxQueue maxQueue = new MaxQueue();
+//                maxQueue.push_back(1);
+//                maxQueue.push_back(5);
+//                maxQueue.push_back(4);
+//                System.out.println("result1:" + maxQueue.toString());
+//                System.out.println("result1:" + maxQueue.max_value());
+//                maxQueue.push_back(7);
+//                maxQueue.push_back(22);
+//                maxQueue.push_back(6);
+//                maxQueue.push_back(6);
+//                System.out.println("result1:" + maxQueue.toString());
+//                System.out.println("result1:" + maxQueue.max_value());
+//            }
+//        });
 
-        TimeTestUtils.testTask("队列的最大值", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("合并两个排序的链表", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums1 = {1,2,4};
+//                int[] nums2 = {1,3,4};
+//                ListNode node1 = ListNode.arrayToListNode(nums1);
+//                ListNode node2 = ListNode.arrayToListNode(nums2);
+//                ListNode result = algorithmStudy.mergeTwoLists2(node1,node2);
+//                ListNode.print(result);
+//            }
+//        });
+
+//        TimeTestUtils.testTask("滑动窗口的最大值", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                int[] nums = {1,3,-1,-3,5,3,6,7};
+//                int[] result = algorithmStudy.maxSlidingWindow(nums, 3);
+//                System.out.println("result: " + Arrays.toString(result));
+//            }
+//        });
+
+        TimeTestUtils.testTask("设计循环队列", new TimeTestUtils.Task() {
             @Override
             public void execute() {
-                int[] nums = {1,2,3,4,6};
-                MaxQueue maxQueue = new MaxQueue();
-                maxQueue.push_back(1);
-                maxQueue.push_back(5);
-                maxQueue.push_back(4);
-                System.out.println("result1:" + maxQueue.toString());
-                System.out.println("result1:" + maxQueue.max_value());
-                maxQueue.push_back(7);
-                maxQueue.push_back(22);
-                maxQueue.push_back(6);
-                maxQueue.push_back(6);
-                System.out.println("result1:" + maxQueue.toString());
-                System.out.println("result1:" + maxQueue.max_value());
+                LinkedCircularQueue queue = new LinkedCircularQueue(5);
+                queue.enQueue(1);
+                queue.enQueue(3);
+                queue.enQueue(4);
+                queue.enQueue(7);
+                queue.print();
+                queue.deQueue();
+                System.out.println("当前队列队头:"+queue.Front());
+                System.out.println("当前队列队尾:"+queue.Rear());
+                queue.deQueue();
+                queue.print();
             }
         });
     }
@@ -4586,5 +4628,94 @@ public class AlgorithmStudy {
         //更新pre.next = cur
         pre.next = cur;
         return temp.next;
+    }
+
+
+    /**
+     * 剑指 Offer 25. 合并两个排序的链表
+     * 虚拟头结点
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //虚拟头结点
+        ListNode temp = new ListNode();
+        //从虚拟头结点的next开始链接
+        ListNode head = temp;
+        while(l1 != null && l2 != null){
+            if(l1.val < l2.val){
+                head.next = l1;
+                l1 = l1.next;
+            } else {
+                head.next = l2;
+                l2 = l2.next;
+            }
+            //后移
+            head = head.next;
+        }
+        //链接l1或l2的剩余结点
+        head.next = ((l1 != null) ? l1 : l2);
+        return temp.next;
+    }
+
+    /**
+     * 剑指 Offer 25. 合并两个排序的链表
+     * 递归解法
+     */
+    public ListNode mergeTwoLists2(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        if (l1.val < l2.val) {
+            l1.next = mergeTwoLists2(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists2(l1, l2.next);
+            return l2;
+       }
+    }
+
+    /**
+     * 滑动窗口的最大值
+     * 滑动窗口+最大值队列（单调队列）
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        //在输入数组不为空的情况下，1 ≤ k ≤ 输入数组的大小
+        if(nums == null || nums.length < k) return null;
+        if((nums != null && nums.length == 0) || k <= 0) return new int[0];
+        //最大窗口数量为 nums.length - k + 1
+        int[] result = new int[nums.length - k + 1];
+
+        //双端队列记录滑动窗口最大值
+        Deque<Integer> maxDeque = new ArrayDeque<>();
+        //生成第一个窗口
+        for(int i = 0; i < k; i++){
+            //maxDeque队列，对头元素时当前的最大值，而其他元素是未来可能成为最大值的候选值
+            //  1.新增元素 element > max 时 ，取队列中队尾元素比较，如果满足，进行覆盖并且循环比较直到把所有比它小的值都覆盖为止
+            //  2.新增元素 element < max 时，将其存到max队列中去（入队）
+            while(!maxDeque.isEmpty() && maxDeque.peekLast() < nums[i]){
+                maxDeque.pollLast();
+            }
+            maxDeque.offerLast(nums[i]);
+        }
+        //记录第一个滑动窗口的最大值
+        result[0] = maxDeque.peekFirst();
+        //滑动窗口开始滑动
+        for(int i = k; i < nums.length; i++){
+            //出队(队头元素 nums[i-k]) ***此时队头的位置不在循环体内
+            if(nums[i - k] == maxDeque.peekFirst()){
+                //如果删除是最大值，同时从maxDeque中删除
+                maxDeque.pollFirst();
+            }
+            //入队
+            while(!maxDeque.isEmpty() && maxDeque.peekLast() < nums[i]){
+                maxDeque.pollLast();
+            }
+            maxDeque.offerLast(nums[i]);
+            //记录第(i-k+1)个滑动窗口的最大值
+            result[i-k+1] = maxDeque.peekFirst();
+        }
+        return result;
     }
 }

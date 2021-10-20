@@ -20,7 +20,7 @@ public class MaxQueue {
 
     //数据队列（队列）
     Queue<Integer> queue;
-    //最大值候选值队列(双端队列)
+    //最大值候选值队列(双端队列)，递减队列
     Deque<Integer> maxQueue;
 
     public MaxQueue() {

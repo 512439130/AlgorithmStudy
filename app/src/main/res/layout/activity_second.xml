@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.FirstActivity"
+    tools:context=".activity.SecondActivity"
     android:orientation="vertical"
     android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="First"/>
+        android:text="Second"/>
 
     <Button
         android:id="@+id/btn_jump_me"
@@ -20,10 +20,10 @@
         android:text="重复打开自己"/>
 
     <Button
-        android:id="@+id/btn_jump_second"
+        android:id="@+id/btn_jump_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打开SecondActivity"/>
+        android:text="打开FirstActivity"/>
 
     <Button
         android:id="@+id/btn_jump_third"

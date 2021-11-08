@@ -4,6 +4,7 @@ import com.yy.study.algorithm.structure.link.ListNode;
 import com.yy.study.algorithm.structure.queue.ArrayCircularQueue;
 import com.yy.study.algorithm.structure.queue.LinkedCircularQueue;
 import com.yy.study.algorithm.structure.queue.MaxQueue;
+import com.yy.study.algorithm.structure.tree.TreeNode;
 import com.yy.study.util.TimeTestUtils;
 
 import java.lang.reflect.Array;
@@ -514,20 +515,37 @@ public class AlgorithmStudy {
 //            }
 //        });
 
-        TimeTestUtils.testTask("设计循环队列", new TimeTestUtils.Task() {
+//        TimeTestUtils.testTask("设计循环队列", new TimeTestUtils.Task() {
+//            @Override
+//            public void execute() {
+//                LinkedCircularQueue queue = new LinkedCircularQueue(5);
+//                queue.enQueue(1);
+//                queue.enQueue(3);
+//                queue.enQueue(4);
+//                queue.enQueue(7);
+//                queue.print();
+//                queue.deQueue();
+//                System.out.println("当前队列队头:"+queue.Front());
+//                System.out.println("当前队列队尾:"+queue.Rear());
+//                queue.deQueue();
+//                queue.print();
+//            }
+//        });
+
+        TimeTestUtils.testTask("树的最大深度", new TimeTestUtils.Task() {
             @Override
             public void execute() {
-                LinkedCircularQueue queue = new LinkedCircularQueue(5);
-                queue.enQueue(1);
-                queue.enQueue(3);
-                queue.enQueue(4);
-                queue.enQueue(7);
-                queue.print();
-                queue.deQueue();
-                System.out.println("当前队列队头:"+queue.Front());
-                System.out.println("当前队列队尾:"+queue.Rear());
-                queue.deQueue();
-                queue.print();
+                TreeNode root = new TreeNode(3);
+                TreeNode rootLeft = new TreeNode(9);
+                TreeNode rootRight = new TreeNode(20);
+                root.left = rootLeft;
+                root.right = rootRight;
+                TreeNode rootRightLeft = new TreeNode(15);
+                TreeNode rootRightRight = new TreeNode(7);
+                rootRight.left = rootRightLeft;
+                rootRight.right = rootRightRight;
+
+                System.out.println("depth:" + algorithmStudy.maxDepth(root));
             }
         });
     }
@@ -4717,5 +4735,19 @@ public class AlgorithmStudy {
             result[i-k+1] = maxDeque.peekFirst();
         }
         return result;
+    }
+
+    /**
+     * 104. 二叉树的最大深度
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        //递归的结束条件
+        if(root == null) return 0;
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        System.out.println("leftDepth:" + leftDepth + "rightDepth:" + rightDepth );
+        return Math.max(leftDepth,rightDepth) + 1;
     }
 }

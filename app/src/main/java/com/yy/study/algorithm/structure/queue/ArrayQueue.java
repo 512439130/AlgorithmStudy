@@ -60,14 +60,14 @@ public class ArrayQueue {
         return head == tail;
     }
 
-    public boolean add(int value) {
+    public boolean offer(int value) {
         //先判断队列容量大小
         if (isFull()) return false;
         array[tail++] = value;
         return true;
     }
 
-    public int get() {
+    public int poll() {
         //先判断队列是否为空
         if (isEmpty()) return -1;
         return array[head++];
@@ -76,12 +76,12 @@ public class ArrayQueue {
     public static void main(String[] args) {
         ArrayQueue arrayQueue = new ArrayQueue(5);
         for (int i = 0; i < arrayQueue.size() + 1; i++) {
-            System.out.println("入队" + arrayQueue.add(i));
+            System.out.println("入队" + arrayQueue.offer(i));
             System.out.println("result:" + Arrays.toString(arrayQueue.array));
         }
 
         for (int i = arrayQueue.size() - 1; i >= 0; i--) {
-            System.out.println("出队" + arrayQueue.get());
+            System.out.println("出队" + arrayQueue.poll());
             System.out.println("result:" + Arrays.toString(arrayQueue.array));
         }
     }

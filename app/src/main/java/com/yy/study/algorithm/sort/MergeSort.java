@@ -10,10 +10,6 @@ import java.util.Arrays;
  */
 @SuppressWarnings("unchecked")
 public class MergeSort<E extends Comparable<E>> extends BaseSort<E> {
-    @Override
-    protected boolean isPrintArray() {
-        return false;
-    }
 
     @Override
     public boolean isStable() {

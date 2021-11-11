@@ -13,16 +13,25 @@ public class SelectionSort1<E extends Comparable<E>> extends BaseSort<E> {
     }
 
     @Override
+    protected boolean isPrintArray() {
+        return true;
+    }
+
+    @Override
     protected void sort() {
+        //通过选择排序找出最大值或最小值，然后和数组的第i位进行交换
+        //选择排序中最左边是已经排好序的位置
+        //记录最小值下标
         int minIndex;
-        for (int i = 0; i < array.length - 1; i++) {
+        for (int i = 0; i < array.length; i++) {
+            //从左往右比较，最小的在最左边
             minIndex = i;
             for (int j = i + 1; j < array.length; j++) {
-                if (array[j].compareTo(array[minIndex]) < 0) {
+                if(array[minIndex].compareTo(array[j]) > 0){
                     minIndex = j;
                 }
             }
-            if (minIndex != i) {
+            if(minIndex != i){
                 swap(i, minIndex);
             }
         }

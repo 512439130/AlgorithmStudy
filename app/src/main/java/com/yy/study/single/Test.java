@@ -19,7 +19,7 @@ public class Test {
             SingletonLazy.getInstance().test();
             SingletonDCL.getInstance().test();
             SingletonStaticInner.getInstance().test();
-            SingletonEnum.INSTANCE.test();
+            SingletonEnum.INSTANCE.getInstance().test();
         }
 
     }

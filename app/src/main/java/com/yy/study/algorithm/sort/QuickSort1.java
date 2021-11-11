@@ -3,7 +3,7 @@ package com.yy.study.algorithm.sort;
 /**
  * 快速排序1（基础版：左右指针）
  * 时间复杂度 O(NLogN)
- * 空间复杂度 O(logN)
+ * 空间复杂度 O(NlogN)
  * 稳定性：不稳定
  */
 public class QuickSort1<E extends Comparable<E>> extends BaseSort<E> {

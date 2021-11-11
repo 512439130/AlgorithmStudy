@@ -13,6 +13,11 @@ public class SelectionSort2<E extends Comparable<E>> extends BaseSort<E> {
     }
 
     @Override
+    protected boolean isPrintArray() {
+        return true;
+    }
+
+    @Override
     protected void sort() {
         int maxIndex;
         for (int end = array.length - 1; end > 0; end--) {

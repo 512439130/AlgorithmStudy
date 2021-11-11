@@ -8,7 +8,7 @@ public abstract class BaseSort<E extends Comparable<E>> implements Comparable<Ba
      * 是否打印数组排序前后情况
      */
     protected boolean isPrintArray(){
-        return false;
+        return true;
     }
 
     /**

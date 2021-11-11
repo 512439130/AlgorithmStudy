@@ -1,4 +1,4 @@
-package com.yy.study.activity;
+package com.yy.study.task;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yy.study.R;
+import com.yy.study.handler.HandlerActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ public class ThirdActivity extends AppCompatActivity {
 
     private Button btnJumpMe;
     private Button btnJumpSecond;
+    private Button btnJumpHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +29,17 @@ public class ThirdActivity extends AppCompatActivity {
     private void init() {
         btnJumpMe = findViewById(R.id.btn_jump_me);
         btnJumpSecond = findViewById(R.id.btn_jump_second);
+        btnJumpHandler = findViewById(R.id.btn_jump_handler);
         btnJumpMe.setOnClickListener(view -> {
             Intent intent = new Intent(this, ThirdActivity.class);
             startActivity(intent);
         });
         btnJumpSecond.setOnClickListener(view -> {
             Intent intent = new Intent(this,SecondActivity.class);
+            startActivity(intent);
+        });
+        btnJumpHandler.setOnClickListener(view -> {
+            Intent intent = new Intent(this, HandlerActivity.class);
             startActivity(intent);
         });
     }

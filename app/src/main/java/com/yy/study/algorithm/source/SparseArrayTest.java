@@ -66,8 +66,8 @@ public class SparseArrayTest {
 
         //put（将key以升序的方法"紧凑的排列在一起"）
         //1.通过二分查找(有序)计算插入的key数组位置(O(logN))，二分查找的返回值为 -start(左边界)
-        //2.if(找到该key的index)，直接数组下标赋值覆盖
-        //3.else(未找到该key的index)，通过（~= 非运算符求合适的位置）:
+        //2.if(找到该key的index  binarySearch return >= 0)，直接数组下标赋值覆盖
+        //3.else(未找到该key的index  binarySearch return < 0)，通过（~= 非运算符求合适的位置）:
         //3.1 如果key对应位置value = DELETED ，则直接数组下标赋值覆盖 O(1)
         //3.2 通过Arrays.copy调整index尾部的数据后移（可以后移）,然后空出index位置给新元素 O(n)
         //3.3 通过Arrays.copy调整index尾部的数据后移（不能后移）,则执行GC操作，GC删除数组中一些value被DELETE标记的元素，使整个数组尾部有空闲位置，可以向后移动元素，然后放置新元素 O(n)
@@ -97,7 +97,12 @@ public class SparseArrayTest {
         //------------ArrayMap-------------
         //非线程安全
         //数据结构:
+        //内部实现是基于两个数组。
+        //一个int[]数组，用于保存每个item的hashCode.
+        //一个Object[]数组，保存key/value键值对。容量是上一个数组的两倍。
+
         //mHash 通过数组升序保存所有key的hashCode
+        //mArray存储 key和value
         //查找时通过二分查找对应的index
         //需要优化内存，并且key为非int类型，则使用ArrayMap
 
@@ -108,8 +113,8 @@ public class SparseArrayTest {
         //allocArrays: 取缓存
 
         //put
-        //mHashes在index处存储hash code(升序方式)
-        //mArray存储 key和value，通过key计算的hash作为index存储mHashes，mArray中通过index * 2存储key，通过index*2+1存储value
+        //mHashes在index处存储hash code(升序方式:每次插入都以hash值升序排列)
+        //mArray存储key和value，通过key计算的hash作为index存储mHashes，mArray中通过mHashes的(index * 2)存储key，通过mHashes的(index*2+1)存储value
 
         //get
         //index = binarySearch(key)(二分查找)
@@ -139,8 +144,8 @@ public class SparseArrayTest {
         //------------Java原生态类型与泛型类型擦除-------------
 
         //非运算符
-        int i = -2;
-        i = ~i;
+//        int i = -2;
+//        i = ~i;
         // i = 1;  i = -((-2)+1)
 
     }

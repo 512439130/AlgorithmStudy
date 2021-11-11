@@ -4,31 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".task.SecondActivity"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Second"/>
+    android:gravity="center"
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_jump_me"
+        android:id="@+id/btn_child_to_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="重复打开自己"/>
+        android:text="子线程给主线程发送消息"/>
 
     <Button
-        android:id="@+id/btn_jump_first"
+        android:id="@+id/btn_main_to_child"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打开FirstActivity"/>
+        android:text="主线程给子线程发送消息"/>
 
     <Button
-        android:id="@+id/btn_jump_third"
+        android:id="@+id/btn_child_to_child"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打开ThirdActivity"/>
+        android:text="子线程给子线程发送消息"/>
 
 </LinearLayout>

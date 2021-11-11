@@ -47,7 +47,7 @@ public class HeapSort<E extends Comparable<E>> extends BaseSort<E>{
      */
     private void buildMaxHeap(E[] tree, int n){
         //根据堆属性，通过最后一个叶子结点求最后一个叶子结点的父结点
-        //parent(i) = floor((i - 1) / 2)  floor 向下取证
+        //parent(i) = floor((i - 1) / 2)  floor 向下取整
         int last = n - 1;
         int parent = (last - 1) / 2;
         for (int i = parent; i >= 0; i--) {

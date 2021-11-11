@@ -9,4 +9,12 @@ public interface TestInterfaceB extends TestInterfaceA{
     default void print(int i) {
 
     }
+
+    //接口中创建类
+    class InterfaceInnerClass{
+        private String name;
+        private InterfaceInnerClass(){
+
+        }
+    }
 }

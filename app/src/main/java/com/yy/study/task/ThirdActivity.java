@@ -1,5 +1,6 @@
 package com.yy.study.task;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,8 @@ import com.yy.study.R;
 import com.yy.study.handler.HandlerActivity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class ThirdActivity extends AppCompatActivity {
+public class ThirdActivity extends Activity {
     private String TAG = "TEST-ThirdActivity";
 
     private Button btnJumpMe;

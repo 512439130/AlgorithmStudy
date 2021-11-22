@@ -18,7 +18,8 @@ public class MainRunnable implements Runnable{
     public void run() {
         Message message = handler.obtainMessage();
         message.what = Constant.Handler.WORK_TO_MAIN;
-        handler.sendMessage(message);
+        handler.sendMessageDelayed(message,5000);
         Log.d(TAG,"Thread-Id-testChildToMain:" + Thread.currentThread().getId());
+
     }
 }

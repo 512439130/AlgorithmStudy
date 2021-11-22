@@ -3,6 +3,7 @@ package com.yy.study.task;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +11,7 @@ import android.widget.Button;
 
 import com.yy.study.R;
 
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends Activity {
     private String TAG = "TEST-SecondActivity";
 
     private Button btnJumpMe;
@@ -23,6 +24,16 @@ public class SecondActivity extends AppCompatActivity {
         TAG = TAG +"-taskId: "+ getTaskId();
         Log.d(TAG,"onCreate");
         init();
+    }
+
+    private void testError() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String test = null;
+                System.out.println(test.trim());
+            }
+        }).start();
     }
 
     private void init() {

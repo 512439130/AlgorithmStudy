@@ -5,12 +5,12 @@ import java.util.Arrays;
 public class Calculation {
 
     public static void main(String[] args) {
-        String a1 = "123456";
-        String b1 = "8887987654";
-        System.out.println("add: " + a1 + " + " + b1 + " = " + add(a1, b1));
+//        String a1 = "123456";
+//        String b1 = "8887987654";
+//        System.out.println("add: " + a1 + " + " + b1 + " = " + add(a1, b1));
 
-        String a2 = "12345";
-        String b2 = "10345";
+        String a2 = "123";
+        String b2 = "117";
         System.out.println("minus: " + a2 + " - " + b2 + " = " + minus(a2, b2));
     }
 
@@ -114,6 +114,7 @@ public class Calculation {
 
             if(difference < 0){
                 carry = 1;
+                difference += 10;
             } else {
                 carry = 0;
             }

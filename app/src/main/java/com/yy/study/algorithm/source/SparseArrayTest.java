@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SparseArrayTest {
     public static void main(String[] args) {
@@ -148,5 +149,28 @@ public class SparseArrayTest {
 //        i = ~i;
         // i = 1;  i = -((-2)+1)
 
+
+        System.out.println("testThrow():" + testThrow());
+
+    }
+
+    public static Map testThrow(){
+        Map<String,String> map = new HashMap<>();
+
+        try {
+            map.put("test","try");
+            System.out.println("map:" + map.toString());
+            throw new NullPointerException();
+//            return map;
+        } catch (Exception e){
+            map.put("test","catch");
+            System.out.println("map:" + map.toString());
+            return map;
+        } finally {
+            map.put("test","finally");
+            System.out.println("map:" + map.toString());
+//            throw new NullPointerException();
+        }
+//        return a;
     }
 }

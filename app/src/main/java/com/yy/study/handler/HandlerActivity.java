@@ -1,6 +1,8 @@
 package com.yy.study.handler;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,8 @@ import com.yy.study.handler.runnable.MainRunnable;
 import com.yy.study.handler.runnable.WorkRunnable;
 import com.yy.study.handler.runnable.WorkRunnable1;
 import com.yy.study.handler.runnable.WorkRunnable2;
+
+import androidx.annotation.NonNull;
 
 
 public class HandlerActivity extends BaseActivity implements View.OnClickListener {
@@ -46,12 +50,63 @@ public class HandlerActivity extends BaseActivity implements View.OnClickListene
         mBtnChildToMain.setOnClickListener(this);
         mBtnMainToChild.setOnClickListener(this);
         mBtnChildToChild.setOnClickListener(this);
+
+        mBtnChildToMain.post(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     private void testWorkToMain() {
         //开启一个子UI线程，在子线程通过主线程的handler发送消息，主线程handler处理消息
         MainRunnable mainRunnable = new MainRunnable(mainHandler);
         new Thread(mainRunnable).start();
+
+//        //2
+//        Handler testHandler = new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(@NonNull Message msg) {
+//                Log.d(TAG,"MESSAGE-handleMessage-new Handler.Callback");
+//                return true;
+//            }
+//        });
+//        Message message2 = Message.obtain();
+//        message2.what = 222;
+//        testHandler.sendMessage(message2);
+//
+//        Handler test2Handler = new Handler(Looper.getMainLooper()){
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                Log.d(TAG,"MESSAGE-handleMessage");
+//                if(msg.what == 888){
+//                    Log.d(TAG,"MESSAGE-handleMessage-888");
+//                }
+//            }
+//        };
+////        //1
+//        test2Handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG,"MESSAGE-POST-Runnable");
+//            }
+//        });
+
+//        //1
+//        Message message = Message.obtain(test2Handler, new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG,"MESSAGE-Runnable");
+//            }
+//        });
+//        message.what = 666;
+//        test2Handler.sendMessage(message);
+//
+//        //3
+//        Message message888 = Message.obtain();
+//        message888.what = 888;
+//        test2Handler.sendMessage(message888);
     }
 
     private void testMainToWork() {

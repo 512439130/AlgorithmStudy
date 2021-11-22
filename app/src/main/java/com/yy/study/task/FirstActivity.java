@@ -1,8 +1,6 @@
 package com.yy.study.task;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +8,9 @@ import android.widget.Button;
 
 import com.yy.study.R;
 
-public class FirstActivity extends AppCompatActivity {
+import androidx.annotation.NonNull;
+
+public class FirstActivity extends Activity {
     private String TAG = "TEST-FirstActivity";
 
     private Button btnJumpMe;
@@ -42,6 +42,18 @@ public class FirstActivity extends AppCompatActivity {
             Intent intent = new Intent(this,ThirdActivity.class);
             startActivity(intent);
         });
+
+        testError();
+    }
+
+    private void testError() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double test = 1/0 ;
+                System.out.println(test);
+            }
+        }).run();
     }
 
     @Override
